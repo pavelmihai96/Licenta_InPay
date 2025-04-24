@@ -1,3 +1,5 @@
-# school-management-system
+InPay
 
-## Developers: Coman Matei, Furţea Claudiu, Lungu Pavel, Voinescu Denis
+A web application to make service payments online.
+
+## Developers: Lungu Pavel
