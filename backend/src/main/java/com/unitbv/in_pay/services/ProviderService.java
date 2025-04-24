@@ -39,7 +39,7 @@ public class ProviderService {
         return providerRepository.save(provider);
     }
 
-    public Provider getProvider(Integer providerId) {
-        return providerRepository.findProviderByUserId(providerId);
+    public Provider getProvider(Integer userId) {
+        return providerRepository.findProviderByUserId(userId);
     }
 }

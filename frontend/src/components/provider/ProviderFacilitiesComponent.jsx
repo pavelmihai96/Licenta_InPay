@@ -1,13 +1,13 @@
 import DataTable from "react-data-table-component";
-import './listOfFacilities.css';
-import './createFacility.css';
+import '../../style/listOfFacilities.css';
+import '../../style/createFacility.css';
 
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
 
-const ListOfCoursesComponent = () => {
+const ProviderFacilitiesComponent = () => {
 
     // teacher id
     const { id } = useParams();
@@ -79,7 +79,7 @@ const ListOfCoursesComponent = () => {
 
         try {
             const provider = await request("GET", `http://localhost:8080/api/provider/${id}`);
-            const response = await request("GET", `/api/facility/all/${provider.data.providerId}`);
+            const response = await request("GET", `/api/facility/provider/${provider.data.providerId}`);
 
             setFacilities(response.data);
             console.log("facilities: " + response.data);
@@ -216,4 +216,4 @@ const ListOfCoursesComponent = () => {
     );
 }
 
-export default ListOfCoursesComponent;
+export default ProviderFacilitiesComponent;

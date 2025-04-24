@@ -20,7 +20,10 @@ const Navbar = () => {
 
                         {/* Show Enrollments only for STUDENT */}
                         {auth.user.role === "CONSUMER" && (
-                            <li><Link to={`/consumer-facilities/${auth.user.userId}`} className="nav-button">Enrollments</Link></li>
+                            <li><Link to={`/consumer-facilities/${auth.user.userId}`} className="nav-button">Services</Link></li>
+                        )}
+                        {auth.user.role === "CONSUMER" && (
+                            <li><Link to={`/consumer-subscriptions/${auth.user.userId}`} className="nav-button">Subscriptions</Link></li>
                         )}
 
                         <li>

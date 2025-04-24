@@ -14,11 +14,26 @@
     width: 100%;
 }
 
-.data-table-wrapper {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
+.data-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
+
+.data-table .container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 1rem;
+}
+
+.data-table-wrapper {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 
 .react-pagination {
     width: 100%;

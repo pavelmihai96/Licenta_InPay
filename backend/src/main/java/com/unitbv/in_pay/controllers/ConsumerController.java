@@ -1,15 +1,13 @@
 package com.unitbv.in_pay.controllers;
 
 import com.unitbv.in_pay.entities.Consumer;
+import com.unitbv.in_pay.entities.Provider;
 import com.unitbv.in_pay.request.ConsumerRequest;
 import com.unitbv.in_pay.services.ConsumerService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
@@ -21,5 +19,10 @@ public class ConsumerController {
     @PostMapping
     public Consumer addConsumer(@RequestBody ConsumerRequest request) {
         return consumerService.addConsumer(request);
+    }
+
+    @GetMapping("/{userId}")
+    public Consumer getConsumer(@PathVariable Integer userId) {
+        return consumerService.getConsumer(userId);
     }
 }

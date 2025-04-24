@@ -33,10 +33,10 @@ export const AuthProvider = ({ children }) => {
                 setUser(response.data);
                 console.log(data);
                 if (data.role === "CONSUMER") {
-                    navigate(`/subscriptions/${data.userId}`)
+                    navigate(`/consumer-subscriptions/${data.userId}`)
                 }
                 else if (data.role === "PROVIDER") {
-                    navigate(`/facilities/${data.userId}`)
+                    navigate(`/provider-facilities/${data.userId}`)
                 }
 
                 //router.push("/dashboard") // or "/shop" depending on where you want to go

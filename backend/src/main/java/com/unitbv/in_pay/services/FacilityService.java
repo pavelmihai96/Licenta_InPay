@@ -40,6 +40,10 @@ public class FacilityService {
         return facilityRepository.findAll();
     }
 
+    public List<Facility> getProviderFacilities(Integer providerId) {
+        return facilityRepository.getAllByProviderId(providerId);
+    }
+
     public Facility updateFacility(Integer facilityId, Facility facility) {
         Facility facilityToUpdate = facilityRepository.findById(facilityId).orElseThrow(() -> new IllegalStateException(String.format("Course with ID %s doesn't exist", facilityId)));
 
@@ -56,9 +60,5 @@ public class FacilityService {
             throw new IllegalStateException(String.format("Facility with ID %s doesn't exist", facilityId));
         }
         facilityRepository.deleteById(facilityId);
-    }
-
-    public List<Facility> getProviderFacilities(Integer providerId) {
-        return facilityRepository.getAllByProviderId(providerId);
     }
 }
