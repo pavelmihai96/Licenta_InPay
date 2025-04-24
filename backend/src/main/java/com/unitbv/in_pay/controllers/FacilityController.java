@@ -31,7 +31,7 @@ public class FacilityController {
         return facilityService.getAllFacilities();
     }
 
-    @GetMapping("/all/{providerId}")
+    @GetMapping("/provider/{providerId}")
     public List<Facility> getProviderFacilities(@PathVariable Integer providerId) {
         return facilityService.getProviderFacilities(providerId);
     }

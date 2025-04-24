@@ -1,6 +1,7 @@
 package com.unitbv.in_pay.services;
 
 import com.unitbv.in_pay.entities.Consumer;
+import com.unitbv.in_pay.entities.Provider;
 import com.unitbv.in_pay.entities.User;
 import com.unitbv.in_pay.repositories.ConsumerRepository;
 import com.unitbv.in_pay.repositories.UserRepository;
@@ -35,5 +36,9 @@ public class ConsumerService {
         consumer.setCreatedAt(request.getCreatedAt());
 
         return consumerRepository.save(consumer);
+    }
+
+    public Consumer getConsumer(Integer userId) {
+        return consumerRepository.findConsumerByUserId(userId);
     }
 }

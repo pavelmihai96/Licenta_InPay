@@ -13,6 +13,8 @@ import { AuthProvider } from "./service/AuthContext.jsx";
 import TeacherEnrollments from './teacherEnrollments/TeacherEnrollments.jsx';
 import StudentGrades from "./studentGrades/StudentGrades.jsx";
 import ProviderFacilitiesComponent from "./components/provider/ProviderFacilitiesComponent.jsx";
+import ConsumerSubscriptionsComponent from "./components/consumer/ConsumerSubscriptionsComponent.jsx";
+import ConsumerFacilitiesComponent from "./components/consumer/ConsumerFacilitiesComponent.jsx";
 
 function App() {
 
@@ -25,7 +27,16 @@ function App() {
             <Route path='/register' element={<SignUpComponent />} />
 
             <Route path='/provider-facilities/:id' element={<ProtectedRoute><ProviderFacilitiesComponent /></ProtectedRoute>} />
+            <Route path='/consumer-subscriptions/:id' element={<ProtectedRoute><ConsumerSubscriptionsComponent /></ProtectedRoute>} />
+            <Route path='/consumer-facilities/:id' element={<ProtectedRoute><ConsumerFacilitiesComponent /></ProtectedRoute>} />
+
+
+
+
             <Route path='/list-students/:id' element={<ProtectedRoute><TeacherEnrollments /></ProtectedRoute>} />
+
+
+
 
             <Route path='/enrollments/:id' element={<ProtectedRoute><EnrolledCourses /></ProtectedRoute>} />
             <Route path='/enrollments/:id/:courseId' element={<ProtectedRoute><StudentGrades /></ProtectedRoute>} />

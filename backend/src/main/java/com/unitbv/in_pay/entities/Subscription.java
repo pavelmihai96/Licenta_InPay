@@ -26,14 +26,15 @@ public class Subscription {
     @JoinColumn(name = "facility_id", referencedColumnName = "facility_id")
     private Facility facility;
 
-    @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Subscription.Status status;
 
     @Column(nullable = false)
     private java.sql.Timestamp createdAt;
 
-    @Column
-    private String monthlyPrice;
+    public enum Status {
+        ACTIVE, INACTIVE
+    }
 
     @PrePersist
     protected void onCreate() {
