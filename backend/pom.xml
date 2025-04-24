@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.unitbv</groupId>
-	<artifactId>school-management-system</artifactId>
+	<artifactId>InPay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>school-management-system</name>
-	<description>Base backend project for School Management System</description>
+	<name>in-pay</name>
+	<description>Base backend project for InPay application</description>
 	<url/>
 	<licenses>
 		<license/>
