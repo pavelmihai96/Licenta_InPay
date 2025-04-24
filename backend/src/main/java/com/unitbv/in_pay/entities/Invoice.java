@@ -15,7 +15,8 @@ import java.sql.Timestamp;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer invoice_id;
+    @Column(name = "invoice_id")
+    private Integer invoiceId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "consumer_id", referencedColumnName = "consumer_id")
@@ -37,10 +38,10 @@ public class Invoice {
     private Integer amount;
 
     @Column(nullable = false)
-    private java.sql.Timestamp created_at;
+    private java.sql.Timestamp createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 }

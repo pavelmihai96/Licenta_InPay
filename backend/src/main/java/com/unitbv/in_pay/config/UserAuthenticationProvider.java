@@ -42,7 +42,7 @@ public class UserAuthenticationProvider {
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
                 .withClaim("email", user.getUsername())
-                .withClaim("id", user.getUser_id())
+                .withClaim("id", user.getUserId())
                 .sign(algorithm);
     }
 

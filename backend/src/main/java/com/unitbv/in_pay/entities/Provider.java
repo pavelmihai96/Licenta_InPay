@@ -15,13 +15,17 @@ import java.sql.Timestamp;
 public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer provider_id;
+    @Column(name = "provider_id")
+    private Integer providerId;
 
     @Column(nullable = false)
-    private String company_name;
+    private String companyName;
 
     @Column(nullable = false)
-    private java.sql.Timestamp created_at;
+    private String serviceArea;
+
+    @Column(nullable = false)
+    private java.sql.Timestamp createdAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
@@ -29,6 +33,6 @@ public class Provider {
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 }

@@ -18,22 +18,40 @@ const SignUpComponent = () => {
     const [role, setRole] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [address, setAddress] = useState("");
+    const [companyName, setCompanyName] = useState("");
+    const [serviceArea, setServiceArea] = useState("");
 
     useEffect(() => {
-        console.log(role);
-    }, [role])
+    }, [])
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            if (!username || !email || !password || !confirmPassword || !firstName || !lastName) {
-                alert("Please complete all fields");
+            if (!role){
+                alert("Please select a role.");
                 return;
             }
+
+            if (!username || !email || !password || !confirmPassword ) {
+                alert("Please complete all fields.");
+                return;
+            }
+
+            if (role === "CONSUMER" && (!firstName || !lastName || !address)){
+                alert("Please complete all fields for consumer role.")
+                return;
+            }
+            if (role === "PROVIDER" && (!companyName)){
+                alert("Please complete all fields for provider role.")
+                return;
+            }
+
             if (!validateEmail(email)) {
                 alert("Please enter valid email");
                 return;
             }
+
             if (password !== confirmPassword) {
                 alert("Passwords don't match");
                 return;
@@ -60,31 +78,32 @@ const SignUpComponent = () => {
                     console.log("id: " + id)
                     console.log("role registered: " + role_registered);
 
-                    if (role_registered === "TEACHER") {
-                        request('POST', `api/teacher/${id}`, {
+                    if (role_registered === "CONSUMER") {
+                        request('POST', `api/consumer`, {
                             userId: id,
                             firstName: firstName,
                             lastName: lastName,
+                            address: address,
                             createdAt: new Date().toISOString()
                         })
                             .then((response) => {
-                                console.log("New teacher added!")
+                                console.log("New consumer added!")
                             })
                             .catch((error) => {
-                                console.error("Error adding user:", error)
+                                console.error("Error adding consumer:", error)
                             });
                     } else {
-                        request('POST', `api/student/${id}`, {
+                        request('POST', `api/provider`, {
                             userId: id,
-                            firstName: firstName,
-                            lastName: lastName,
+                            companyName: companyName,
+                            serviceArea: serviceArea,
                             createdAt: new Date().toISOString()
                         })
                             .then((response) => {
-                                console.log("New student added!")
+                                console.log("New provider added!")
                             })
                             .catch((error) => {
-                                console.error("Error adding user:", error)
+                                console.error("Error adding provider:", error)
                             });
                     }
 
@@ -111,82 +130,73 @@ const SignUpComponent = () => {
     return (
         <div className="register-page">
             <div className="signup-container">
-                <h3>Sign up</h3>
-                <form>
-                    <label>Username</label>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <label>First name</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        placeholder="First name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <label>Last name</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        placeholder="Last name"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                    />
-                    <label>Confirm password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Confirm your password"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        value={confirmPassword}
-                    />
-                    <label>Role:</label>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <label>Teacher</label>
-                        <input
-                            style={{width:'50%'}}
-                            type="radio"
-                            name="role"
-                            onChange={(e) => setRole(e.target.value)}
-                            value={"TEACHER"}
-                        />
-                        <label>Student</label>
-                        <input
-                            style={{width:'50%'}}
-                            type="radio"
-                            name="role"
-                            onChange={(e) => setRole(e.target.value)}
-                            value={"STUDENT"}
-                        />
+                <h3>Sign Up</h3>
+                <form className="form-grid" onSubmit={handleSignUp}>
+                    {/* Left Column */}
+                    <div className="form-column">
+                        <label>Username</label>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+
+                        <label>Email</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+                        <label>Password</label>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+                        <label>Confirm Password</label>
+                        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>
-                    <button type="submit" onClick={handleSignUp}>Sign up</button>
+
+                    {/* Right Column */}
+                    <div className="form-column">
+                        <div className="tab-buttons">
+                            <button
+                                type="button"
+                                className={role === 'CONSUMER' ? 'active' : ''}
+                                onClick={() => setRole('CONSUMER')}
+                            >
+                                Consumer
+                            </button>
+                            <button
+                                type="button"
+                                className={role === 'PROVIDER' ? 'active' : ''}
+                                onClick={() => setRole('PROVIDER')}
+                            >
+                                Provider
+                            </button>
+                        </div>
+
+                        {role === 'CONSUMER' && (
+                            <>
+                                <label>First Name</label>
+                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+
+                                <label>Last Name</label>
+                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+
+                                <label>Address</label>
+                                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+                            </>
+                        )}
+
+                        {role === 'PROVIDER' && (
+                            <>
+                                <label>Company Name</label>
+                                <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+
+                                <label>Service Area</label>
+                                <input type="text" value={serviceArea} onChange={(e) => setServiceArea(e.target.value)} />
+                            </>
+                        )}
+                    </div>
                 </form>
-                <p>
-                    Already have an account?<br />
-                    <span className="line">
-                        <Link to="/login">Log in</Link>
-                    </span>
+
+                <button className="submit-button" type="submit" onClick={handleSignUp}>
+                    Sign Up
+                </button>
+
+                <p className="login-link">
+                    Already have an account? <Link to="/login">Log in</Link>
                 </p>
             </div>
         </div>

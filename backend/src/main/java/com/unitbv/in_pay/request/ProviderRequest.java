@@ -1,5 +1,6 @@
 package com.unitbv.in_pay.request;
 
+import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter
@@ -7,11 +8,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EnrollmentRequest {
+public class ProviderRequest {
 
-    private Integer studentId;
+    private Integer userId;
 
-    private Integer courseId;
+    private String companyName;
+
+    private String serviceArea;
 
     private java.sql.Timestamp createdAt;
 }

@@ -50,7 +50,6 @@ public class UserService {
         userToUpdate.setPassword(user.getPassword());
         userToUpdate.setRole(user.getRole());
 
-
         return userRepository.save(userToUpdate);
     }
 

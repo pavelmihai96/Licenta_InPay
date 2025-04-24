@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../axios_helper";
 
 const ListOfCoursesComponent = () => {
-    
+
     // teacher id
     const { id } = useParams();
 
@@ -52,7 +52,8 @@ const ListOfCoursesComponent = () => {
         e.preventDefault();
         console.log(id);
         try {
-            const response = await request('POST', `api/course/${id}`, {
+            const teacher = await request("GET", `http://localhost:8080/api/teacher/${id}`);
+            const response = await request('POST', `api/course/${teacher.data.teacherId}`, {
                 courseName: name,
                 teacherId: id,
                 createdAt: new Date().toISOString()
@@ -70,7 +71,8 @@ const ListOfCoursesComponent = () => {
         setLoading(true);
 
         try {
-            const response = await request("GET", `/api/course/all/${id}`);
+            const teacher = await request("GET", `http://localhost:8080/api/teacher/${id}`);
+            const response = await request("GET", `/api/course/all/${teacher.data.teacherId}`);
 
             setCourses(response.data);
             console.log("courses: " + courses);

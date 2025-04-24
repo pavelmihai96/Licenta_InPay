@@ -7,20 +7,20 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <div className="navbar-brand">School Management System</div>
+            <div className="navbar-brand">InPay</div>
             <ul className="navbar-links">
                 {auth.isLoggedIn ? (
                     <>
                         <li><Link to="/profile" className="nav-button">Profile</Link></li>
 
                         {/* Show Courses only for TEACHER or STUDENT */}
-                        {auth.user.role === "TEACHER" && (
-                            <li><Link to={`/courses/${auth.user.userId}`} className="nav-button">Courses</Link></li>
+                        {auth.user.role === "PROVIDER" && (
+                            <li><Link to={`/provider-facilities/${auth.user.userId}`} className="nav-button">Your services</Link></li>
                         )}
 
                         {/* Show Enrollments only for STUDENT */}
-                        {auth.user.role === "STUDENT" && (
-                            <li><Link to={`/enrollments/${auth.user.userId}`} className="nav-button">Enrollments</Link></li>
+                        {auth.user.role === "CONSUMER" && (
+                            <li><Link to={`/consumer-facilities/${auth.user.userId}`} className="nav-button">Enrollments</Link></li>
                         )}
 
                         <li>

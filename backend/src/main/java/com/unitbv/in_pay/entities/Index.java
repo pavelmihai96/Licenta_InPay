@@ -15,7 +15,8 @@ import java.sql.Timestamp;
 public class Index {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer index_id;
+    @Column(name = "index_id")
+    private Integer indexId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "consumer_id", referencedColumnName = "consumer_id")
@@ -26,13 +27,13 @@ public class Index {
     private Facility facility;
 
     @Column(nullable = false)
-    private Integer reading_value;
+    private Integer readingValue;
 
     @Column(nullable = false)
-    private java.sql.Timestamp created_at;
+    private java.sql.Timestamp createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 }
