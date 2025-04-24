@@ -36,6 +36,6 @@ public class AuthenticationController {
         System.out.println(signUpDto);
 
         user.setToken(userAuthenticationProvider.createToken(user)); //once registered in, return a fresh, new JWT
-        return ResponseEntity.created(URI.create("/users/" + user.getUser_id())).body(user);
+        return ResponseEntity.created(URI.create("/users/" + user.getUserId())).body(user);
     }
 }

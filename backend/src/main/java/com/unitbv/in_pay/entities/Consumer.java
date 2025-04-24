@@ -3,6 +3,8 @@ package com.unitbv.in_pay.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,25 +15,31 @@ import lombok.*;
 public class Consumer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer consumer_id;
+    @Column(name = "consumer_id")
+    private Integer consumerId;
 
     @Column(nullable = false)
-    private String first_name;
+    private String firstName;
 
     @Column(nullable = false)
-    private String last_name;
+    private String lastName;
 
     @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)
-    private java.sql.Timestamp created_at;
+    private java.sql.Timestamp createdAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+    }
+
     public Integer getUserId() {
-        return user != null ? user.getUser_id() : null;
+        return user != null ? user.getUserId() : null;
     }
 }

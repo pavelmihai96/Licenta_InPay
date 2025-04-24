@@ -15,7 +15,8 @@ import java.sql.Timestamp;
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer subscription_id;
+    @Column(name = "subscription_id")
+    private Integer subscriptionId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "consumer_id", referencedColumnName = "consumer_id")
@@ -29,13 +30,13 @@ public class Subscription {
     private String status;
 
     @Column(nullable = false)
-    private java.sql.Timestamp created_at;
+    private java.sql.Timestamp createdAt;
 
     @Column
-    private String monthly_price;
+    private String monthlyPrice;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 }

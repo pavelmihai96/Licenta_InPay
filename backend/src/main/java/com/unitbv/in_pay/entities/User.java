@@ -16,7 +16,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto-generates the primary key
-    public Integer user_id;
+    @Column(name = "user_id")
+    public Integer userId;
 
     @Column(unique = true, nullable = false)
     public String email;

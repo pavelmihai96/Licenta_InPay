@@ -7,6 +7,8 @@ const StudentGrades = () => {
     const { id, courseId } = useParams(); // Course ID from URL
     const [assignments, setAssignments] = useState([]);
     const [grades, setGrades] = useState({});
+    const [course, setCourse] = useState(null);
+    const [teacher, setTeacher] = useState(null);
     const [studentInfo, setStudentInfo] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -14,13 +16,19 @@ const StudentGrades = () => {
 
     useEffect(() => {
         fetchStudentData();
-    }, [courseId]);
+    }, [id, courseId]);
 
     const fetchStudentData = async () => {
         try {
             setLoading(true);
             const studentRes = await request("GET", `/api/student/${id}`);
             setStudentInfo(studentRes.data);
+
+            const courseRes = await request("GET", `/api/course/${courseId}`);
+            setCourse(courseRes.data);
+
+            const teacherRes = await request("GET", `/api/teacher/by-id/${courseRes.data.teacherId}`);
+            setTeacher(teacherRes.data);
 
             const assignmentsRes = await request("GET", `/api/assignment/all/${courseId}`);
             const assignmentList = assignmentsRes.data;
@@ -75,6 +83,16 @@ const StudentGrades = () => {
                 ) : (
                     <>
                         <section className="student-info">
+                            <div className="student-header">
+                                <h3 className="student-name">
+                                    Course: {course?.courseName}
+                                </h3>
+                            </div>
+                            <div className="student-header">
+                                <h3 className="student-name">
+                                    Teacher: {teacher?.firstName} {teacher?.lastName}
+                                </h3>
+                            </div>
                             <div className="student-header">
                                 <h3 className="student-name">
                                     Student name: {studentInfo?.firstName} {studentInfo?.lastName} <h4>Average: {assignments.length > 0 && calculateAverage() ? calculateAverage() : 'No grades yet'}</h4>
