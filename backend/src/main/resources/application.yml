@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: school-management-system
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sms_database
+    username: postgres
+    password: 1q2w3e
+    driver-class-name: org.postgresql.Driver
+  profiles:
+    active: dev
+  security:
+    user:
+      name: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect

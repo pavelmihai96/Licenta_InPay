@@ -1,0 +1,1 @@
+Aici vine implementare pt frontend

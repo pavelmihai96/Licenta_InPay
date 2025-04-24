@@ -1,0 +1,13 @@
+package com.unitbv.school_management_system.exceptions;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@AllArgsConstructor
+@Data
+@Builder
+public class Error{
+
+    private String message;
+}
