@@ -33,6 +33,13 @@ public class SubscriptionService {
 
         Facility facility = facilityRepository.findById(request.getFacilityId()).orElseThrow(() -> new IllegalArgumentException(String.format("Facility with ID %s doesn't exist", request.getFacilityId())));
 
+        boolean isAlreadyConsumer = subscriptionRepository.existsByConsumer(consumer);
+        boolean isAlreadyFacility = subscriptionRepository.existsByFacility(facility);
+
+        if (isAlreadyConsumer && isAlreadyFacility) {
+            throw new RuntimeException("This subscription is already present in the database.");
+        }
+
         Subscription subscription = new Subscription();
         subscription.setConsumer(consumer);
         subscription.setFacility(facility);
@@ -44,6 +51,10 @@ public class SubscriptionService {
 
     public Subscription getSubscription(Integer subscriptionId) {
         return subscriptionRepository.findById(subscriptionId).orElseThrow(() -> new IllegalArgumentException(String.format("Subscription with ID %s doesn't exist", subscriptionId)));
+    }
+
+    public Subscription getSubscriptionByConsumerIdAndFacilityId(Integer consumerId, Integer facilityId) {
+        return subscriptionRepository.getSubscriptionByConsumerIdAndFacilityId(consumerId, facilityId);
     }
 
     public List<Subscription> getAllSubscriptions() {

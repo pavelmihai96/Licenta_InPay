@@ -15,6 +15,8 @@ import StudentGrades from "./studentGrades/StudentGrades.jsx";
 import ProviderFacilitiesComponent from "./components/provider/ProviderFacilitiesComponent.jsx";
 import ConsumerSubscriptionsComponent from "./components/consumer/ConsumerSubscriptionsComponent.jsx";
 import ConsumerFacilitiesComponent from "./components/consumer/ConsumerFacilitiesComponent.jsx";
+import ConsumerFacilityInfoComponent from "./components/consumer/ConsumerFacilityInfoComponent.jsx";
+import ConsumerSubscriptionInfoComponent from "./components/consumer/ConsumerSubscriptionInfoComponent.jsx";
 
 function App() {
 
@@ -26,10 +28,11 @@ function App() {
             <Route path='/login' element={<LogInComponent />} />
             <Route path='/register' element={<SignUpComponent />} />
 
-            <Route path='/provider-facilities/:id' element={<ProtectedRoute><ProviderFacilitiesComponent /></ProtectedRoute>} />
-            <Route path='/consumer-subscriptions/:id' element={<ProtectedRoute><ConsumerSubscriptionsComponent /></ProtectedRoute>} />
-            <Route path='/consumer-facilities/:id' element={<ProtectedRoute><ConsumerFacilitiesComponent /></ProtectedRoute>} />
-
+            <Route path='/provider-facilities/:userId' element={<ProtectedRoute><ProviderFacilitiesComponent /></ProtectedRoute>} />
+            <Route path='/consumer-subscriptions/:userId' element={<ProtectedRoute><ConsumerSubscriptionsComponent /></ProtectedRoute>} />
+            <Route path='/consumer-subscriptions/:userId/:subscriptionId' element={<ProtectedRoute><ConsumerSubscriptionInfoComponent /></ProtectedRoute>} />
+            <Route path='/consumer-facilities/:userId' element={<ProtectedRoute><ConsumerFacilitiesComponent /></ProtectedRoute>} />
+            <Route path='/consumer-facilities/:consumerId/:facilityId' element={<ProtectedRoute><ConsumerFacilityInfoComponent /></ProtectedRoute>} />
 
 
 

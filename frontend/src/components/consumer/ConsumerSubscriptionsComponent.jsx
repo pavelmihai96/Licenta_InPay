@@ -6,11 +6,11 @@ import '../../style/createFacility.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
+import {formatDate} from "../../functions.js";
 
 const ConsumerSubscriptionsComponent = () => {
 
-    // teacher id
-    const { id } = useParams();
+    const { userId } = useParams();
 
     const [subscriptions, setSubscriptions] = useState([]);
     const [facilities, setFacilities] = useState([]);
@@ -25,57 +25,16 @@ const ConsumerSubscriptionsComponent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchTableData(id);
-    }, [id]);
+        fetchTableData(userId);
+    }, [userId]);
 
     //console.log(getAuthenticationToken());
 
-    const formatDate = (date) => {
-        const formattedDate = new Date(date);
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        };
-        return new Intl.DateTimeFormat('en-US', options).format(formattedDate);
-    }
-
-    const handleCloseDialog = () => {
-        setIsDialogOpen(false);
-        setFacilityName('');
-        setPrice('');
-        setPricePerKwh('');
-        setType('');
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(id);
-        try {
-            const provider = await request("GET", `http://localhost:8080/api/provider/${id}`);
-            const response = await request('POST', `api/facility`, {
-                facilityName: facilityName,
-                type: type,
-                providerId: provider.data.providerId,
-                createdAt: new Date().toISOString()
-            });
-
-            console.log(response.data);
-            setIsDialogOpen(false);
-            fetchTableData(id);
-        } catch (error) {
-            console.error("Eroare:", error);
-        }
-    };
-
-    const fetchTableData = async (id) => {
+    const fetchTableData = async (userId) => {
         setLoading(true);
 
         try {
-            const consumer = await request("GET", `http://localhost:8080/api/consumer/${id}`);
+            const consumer = await request("GET", `http://localhost:8080/api/consumer/${userId}`);
             const response = await request("GET", `/api/subscription/all/${consumer.data.consumerId}`);
 
             setSubscriptions(response.data);
@@ -87,8 +46,11 @@ const ConsumerSubscriptionsComponent = () => {
         }
     };
 
-    const handleSubscription = (subscriptionId) => {
-        navigate(`/consumer-subscriptions/${id}/${subscriptionId}`)
+    const handleSubscription = async (subscriptionId) => {
+        request("GET", `http://localhost:8080/api/consumer/${userId}`)
+            .then((response) => {
+                navigate(`/consumer-subscriptions/${response.data.consumerId}/${subscriptionId}`)
+            })
     }
 
     const columns = [

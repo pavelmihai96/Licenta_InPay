@@ -6,17 +6,16 @@ import '../../style/createFacility.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
+import {formatDate} from "../../functions.js";
 
 const ProviderFacilitiesComponent = () => {
 
-    // teacher id
-    const { id } = useParams();
+    const { userId } = useParams();
 
     const [facilities, setFacilities] = useState([]);
     const [facilityName, setFacilityName] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
-    const [pricePerKwh, setPricePerKwh] = useState('');
 
     const [loading, setLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -24,23 +23,8 @@ const ProviderFacilitiesComponent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchTableData(id);
-    }, [id]);
-
-    //console.log(getAuthenticationToken());
-
-    const formatDate = (date) => {
-        const formattedDate = new Date(date);
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        };
-        return new Intl.DateTimeFormat('en-US', options).format(formattedDate);
-    }
+        fetchTableData(userId);
+    }, [userId]);
 
     const handleAddFacility = () => {
         setIsDialogOpen(true);
@@ -50,35 +34,42 @@ const ProviderFacilitiesComponent = () => {
         setIsDialogOpen(false);
         setFacilityName('');
         setPrice('');
-        setPricePerKwh('');
         setType('');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(id);
         try {
-            const provider = await request("GET", `http://localhost:8080/api/provider/${id}`);
-            const response = await request('POST', `api/facility`, {
+            const p = await request("GET", `http://localhost:8080/api/provider/by-userId/${userId}`);
+            request('POST', `api/facility`, {
                 facilityName: facilityName,
                 type: type,
-                providerId: provider.data.providerId,
+                providerId: p.data.providerId,
                 createdAt: new Date().toISOString()
-            });
+            })
+              .then((response) => {
+                  request('POST', `api/${response.data.type.toLowerCase()}`, {
+                      facilityId: response.data.facilityId,
+                      price: price
+                  })
+                  .then((response) => {
+                      console.log(response.data);
+                  })
 
-            console.log(response.data);
-            setIsDialogOpen(false);
-            fetchTableData(id);
+                  handleCloseDialog();
+                  setIsDialogOpen(false);
+                  fetchTableData(userId);
+              })
         } catch (error) {
             console.error("Eroare:", error);
         }
     };
 
-    const fetchTableData = async (id) => {
+    const fetchTableData = async (userId) => {
         setLoading(true);
 
         try {
-            const provider = await request("GET", `http://localhost:8080/api/provider/${id}`);
+            const provider = await request("GET", `http://localhost:8080/api/provider/by-userId/${userId}`);
             const response = await request("GET", `/api/facility/provider/${provider.data.providerId}`);
 
             setFacilities(response.data);
@@ -158,7 +149,6 @@ const ProviderFacilitiesComponent = () => {
                             onChange={(e) => setFacilityName(e.target.value)}
                             required
                         />
-                        {/* Right Column */}
                         <div className="form-column">
                             <div className="tab-buttons">
                                 <button
@@ -201,7 +191,7 @@ const ProviderFacilitiesComponent = () => {
                             {(type === 'GAS' || type === 'ELECTRICITY') && (
                                 <>
                                     <label>Price / kwH</label>
-                                    <input type="number" value={pricePerKwh} onChange={(e) => setPricePerKwh(e.target.value)} />
+                                    <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
                                 </>
                             )}
                         </div>

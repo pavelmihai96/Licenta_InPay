@@ -25,8 +25,13 @@ public class SubscriptionController {
     }
 
     @GetMapping("/{subscriptionId}")
-    public Subscription getFacility(@PathVariable Integer subscriptionId) {
+    public Subscription getSubscription(@PathVariable Integer subscriptionId) {
         return subscriptionService.getSubscription(subscriptionId);
+    }
+
+    @GetMapping("/by-ids/{consumerId}/{facilityId}")
+    public Subscription getSubscriptionByConsumerIdAndFacilityId(@PathVariable Integer consumerId, @PathVariable Integer facilityId) {
+        return subscriptionService.getSubscriptionByConsumerIdAndFacilityId(consumerId, facilityId);
     }
 
     @GetMapping

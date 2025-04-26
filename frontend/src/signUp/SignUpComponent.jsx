@@ -8,7 +8,6 @@ import { removeAuthenticationToken, request, setAuthenticationToken } from "../a
 const SignUpComponent = () => {
     let id = 0;
     let role_registered = "";
-    const userRef = useRef();
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
@@ -132,7 +131,6 @@ const SignUpComponent = () => {
             <div className="signup-container">
                 <h3>Sign Up</h3>
                 <form className="form-grid" onSubmit={handleSignUp}>
-                    {/* Left Column */}
                     <div className="form-column">
                         <label>Username</label>
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -147,7 +145,6 @@ const SignUpComponent = () => {
                         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>
 
-                    {/* Right Column */}
                     <div className="form-column">
                         <div className="tab-buttons">
                             <button

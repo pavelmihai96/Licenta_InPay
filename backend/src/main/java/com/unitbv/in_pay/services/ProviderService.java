@@ -39,7 +39,12 @@ public class ProviderService {
         return providerRepository.save(provider);
     }
 
-    public Provider getProvider(Integer userId) {
+    public Provider getProvider(Integer providerId) {
+        return providerRepository.findById(providerId)
+                .orElseThrow(() -> new RuntimeException("This provider doesn't exist"));
+    }
+
+    public Provider getProviderByUserId(Integer userId) {
         return providerRepository.findProviderByUserId(userId);
     }
 }

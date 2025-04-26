@@ -1,0 +1,21 @@
+.index-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.index-input {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #c0d4ee;
+    border-radius: 4px;
+    width: 60%;
+    transition: border-color 0.3s ease;
+}
+
+.index-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
