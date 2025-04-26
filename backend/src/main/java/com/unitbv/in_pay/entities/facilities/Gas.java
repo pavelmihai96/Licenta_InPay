@@ -22,5 +22,5 @@ public class Gas {
     private Facility facility;
 
     @Column(nullable = false)
-    private Double pricePerKwh;
+    private Double price;
 }

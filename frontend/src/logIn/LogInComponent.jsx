@@ -9,12 +9,9 @@ import {useAuth} from "../service/AuthContext.jsx";
 const LogInComponent = () => {
   const userRef = useRef()
   const auth = useAuth();
-  //   const navigate = useNavigate()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     userRef.current.focus()
@@ -22,16 +19,6 @@ const LogInComponent = () => {
 
   useEffect(() => {
   }, [email, password])
-
-  //for test
-  const setAuthToken = () => {
-    //test fara login, decomentati daca vreti sa faceti test fara login si comentati partea cu login
-    //tokenu asta e valid pana in 21 aprilie
-    setAuthenticationToken(
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlkIjoxMywiZXhwIjoxNzQ1MjE4ODg2LCJpYXQiOjE3NDQ2MTQwODYsImVtYWlsIjoidGVzdCJ9.tP3zU4Sx2wqrBCpNLDoSpq3kdp7SGIfh235iilKk514"
-    )
-    console.log("test auth token set")
-  }
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -81,5 +68,3 @@ const LogInComponent = () => {
 }
 
 export default LogInComponent
-
-// enrollments/:id (student)

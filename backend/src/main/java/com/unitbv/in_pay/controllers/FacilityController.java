@@ -26,9 +26,9 @@ public class FacilityController {
         return facilityService.getFacility(facilityId);
     }
 
-    @GetMapping
-    public List<Facility> getFacilities() {
-        return facilityService.getAllFacilities();
+    @GetMapping("/by-consumer/{consumerId}")
+    public List<Facility> getAllFacilities(@PathVariable Integer consumerId) {
+        return facilityService.getAllFacilities(consumerId);
     }
 
     @GetMapping("/provider/{providerId}")

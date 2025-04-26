@@ -1,0 +1,86 @@
+.facility-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 2rem 2rem;
+    min-height: 100vh;
+    background-color: #e6f0fa;
+}
+
+.facility-container {
+    background-color: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 94, 184, 0.2);
+    width: 100%;
+    max-width: 850px;
+    border: 1px solid #cfe2f3;
+    min-height: 500px;
+}
+
+.facility-container h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #004e9b;
+}
+
+.facility-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.facility-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.facility-button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.facility-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.facility-button:hover {
+    background-color: #0056b3;
+}
+
+.facility-container {
+    position: relative; /* Needed for absolute positioning inside */
+    padding-bottom: 5rem; /* Make space for buttons */
+}
+
+.facility-footer {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 2.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.facility-label {
+    position: absolute;
+    top: 1.5rem;
+    right: 2.5rem;
+    color: green;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+

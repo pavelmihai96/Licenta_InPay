@@ -6,11 +6,11 @@ import '../../style/createFacility.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
+import {formatDate} from "../../functions.js";
 
 const ConsumerFacilitiesComponent = () => {
 
-    // teacher id
-    const { id } = useParams();
+    const { userId } = useParams();
 
     const [facilities, setFacilities] = useState([]);
     const [facilityName, setFacilityName] = useState('');
@@ -24,57 +24,15 @@ const ConsumerFacilitiesComponent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchTableData(id);
-    }, [id]);
+        fetchTableData(userId);
+    }, [userId]);
 
-    //console.log(getAuthenticationToken());
-
-    const formatDate = (date) => {
-        const formattedDate = new Date(date);
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        };
-        return new Intl.DateTimeFormat('en-US', options).format(formattedDate);
-    }
-
-    const handleCloseDialog = () => {
-        setIsDialogOpen(false);
-        setFacilityName('');
-        setPrice('');
-        setPricePerKwh('');
-        setType('');
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(id);
-        try {
-            const provider = await request("GET", `http://localhost:8080/api/provider/${id}`);
-            const response = await request('POST', `api/facility`, {
-                facilityName: facilityName,
-                type: type,
-                providerId: provider.data.providerId,
-                createdAt: new Date().toISOString()
-            });
-
-            console.log(response.data);
-            setIsDialogOpen(false);
-            fetchTableData(id);
-        } catch (error) {
-            console.error("Eroare:", error);
-        }
-    };
-
-    const fetchTableData = async (id) => {
+    const fetchTableData = async (userId) => {
         setLoading(true);
 
         try {
-            const response = await request("GET", `/api/facility`);
+            const consumer = await request("GET", `http://localhost:8080/api/consumer/${userId}`);
+            const response = await request("GET", `/api/facility/by-consumer/${consumer.data.consumerId}`);
 
             setFacilities(response.data);
             console.log("facilities: " + response.data);
@@ -85,16 +43,12 @@ const ConsumerFacilitiesComponent = () => {
         }
     };
 
-    const handleSubscription = async (facilityId) => {
+    const handleFacilityInfo = async (facilityId) => {
         try {
-            const consumer = await request("GET", `http://localhost:8080/api/consumer/${id}`);
-            const response = await request("POST", `api/subscription`, {
-                consumerId: consumer.data.consumerId,
-                facilityId: facilityId,
-                status: 'ACTIVE',
-                createdAt: new Date().toISOString()
-            })
-            //navigate(`/consumer-subscriptions/${id}/${subscriptionId}`)
+            const consumer = await request("GET", `http://localhost:8080/api/consumer/${userId}`);
+            console.log(consumer.data.consumerId);
+            console.log(facilityId);
+            navigate(`/consumer-facilities/${consumer.data.consumerId}/${facilityId}`);
         } catch (error) {
             console.error("Eroare:", error);
         } finally {
@@ -126,8 +80,8 @@ const ConsumerFacilitiesComponent = () => {
         {
             name: "",
             cell: (row) => (
-                <button onClick={() => handleSubscription(row.facilityId)}>
-                    Subscribe
+                <button onClick={() => handleFacilityInfo(row.facilityId)}>
+                    Facility info
                 </button>
             ),
         },
@@ -138,7 +92,7 @@ const ConsumerFacilitiesComponent = () => {
             <div className="container">
                 <div className="data-table-wrapper">
                     <div className="header">
-                        <h2>List of Services</h2>
+                        <h2>List of Facilities</h2>
                     </div>
 
                     <DataTable
