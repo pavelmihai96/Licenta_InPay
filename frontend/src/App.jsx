@@ -3,8 +3,6 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LogInComponent from './logIn/LogInComponent'
 import SignUpComponent from "./signUp/SignUpComponent.jsx";
-import ListOfCoursesComponent from './courses/ListOfCoursesComponent.jsx';
-import EnrolledCourses from "./courses/EnrolledCourses.jsx";
 import ProfileComponent from "./profile/ProfileComponent.jsx";
 import Navbar from './layout/Navbar';
 import ProtectedRoute from './service/ProtectedRoute';
@@ -17,6 +15,7 @@ import ConsumerSubscriptionsComponent from "./components/consumer/ConsumerSubscr
 import ConsumerFacilitiesComponent from "./components/consumer/ConsumerFacilitiesComponent.jsx";
 import ConsumerFacilityInfoComponent from "./components/consumer/ConsumerFacilityInfoComponent.jsx";
 import ConsumerSubscriptionInfoComponent from "./components/consumer/ConsumerSubscriptionInfoComponent.jsx";
+import ProviderFacilityInfoComponent from "./components/provider/ProviderFacilityInfoComponent.jsx";
 
 function App() {
 
@@ -29,6 +28,8 @@ function App() {
             <Route path='/register' element={<SignUpComponent />} />
 
             <Route path='/provider-facilities/:userId' element={<ProtectedRoute><ProviderFacilitiesComponent /></ProtectedRoute>} />
+            <Route path='/provider-facilities/:providerId/:facilityId' element={<ProtectedRoute><ProviderFacilityInfoComponent /></ProtectedRoute>} />
+
             <Route path='/consumer-subscriptions/:userId' element={<ProtectedRoute><ConsumerSubscriptionsComponent /></ProtectedRoute>} />
             <Route path='/consumer-subscriptions/:userId/:subscriptionId' element={<ProtectedRoute><ConsumerSubscriptionInfoComponent /></ProtectedRoute>} />
             <Route path='/consumer-facilities/:userId' element={<ProtectedRoute><ConsumerFacilitiesComponent /></ProtectedRoute>} />
@@ -41,7 +42,7 @@ function App() {
 
 
 
-            <Route path='/enrollments/:id' element={<ProtectedRoute><EnrolledCourses /></ProtectedRoute>} />
+
             <Route path='/enrollments/:id/:courseId' element={<ProtectedRoute><StudentGrades /></ProtectedRoute>} />
 
             <Route path='/profile' element={<ProtectedRoute><ProfileComponent /></ProtectedRoute>} />

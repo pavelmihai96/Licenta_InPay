@@ -1,8 +1,6 @@
 import DataTable from "react-data-table-component";
 import '../../style/listOfFacilities.css';
 import '../../style/createFacility.css';
-import { FcInfo } from "react-icons/fc";
-
 
 
 import { useState, useEffect } from 'react';
@@ -10,10 +8,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
 import {formatDate} from "../../functions.js";
 
-const ConsumerSubscriptionsComponent = () => {
+const ProviderConsumersComponent = () => {
 
     const { userId } = useParams();
 
+    const [consumers, setConsumers] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
     const [facilities, setFacilities] = useState([]);
     const [facilityName, setFacilityName] = useState('');
@@ -75,9 +74,11 @@ const ConsumerSubscriptionsComponent = () => {
             selector: (row) => row.facility.type,
         },
         {
-            name: "Info",
+            name: "",
             cell: (row) => (
-                <FcInfo onClick={() => handleSubscription(row.subscriptionId)} size={30}/>
+                <button onClick={() => handleSubscription(row.subscriptionId)}>
+                    Subscription info
+                </button>
             ),
         },
     ];
@@ -106,4 +107,4 @@ const ConsumerSubscriptionsComponent = () => {
     );
 }
 
-export default ConsumerSubscriptionsComponent;
+export default ProviderConsumersComponent;
