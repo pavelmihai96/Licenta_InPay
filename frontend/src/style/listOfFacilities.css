@@ -6,9 +6,9 @@
 
 .container {
     display: flex;
-    justify-content: left;
+    justify-content: center; /* center horizontally */
     align-items: flex-start;
-    height: 100vh;
+    min-height: 100vh; /* to fill the height */
     background-color: #f4f4f9;
     padding: 0 10px;
     width: 100%;
@@ -19,12 +19,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-}
-
-.data-table .container {
-    max-width: 1200px;
-    width: 100%;
-    padding: 1rem;
+    width: 100%; /* important for responsiveness */
 }
 
 .data-table-wrapper {
@@ -32,8 +27,15 @@
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px; /* limit the table width for big screens */
 }
 
+.data-table .container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 1rem;
+}
 
 .react-pagination {
     width: 100%;
@@ -69,4 +71,10 @@
 .react-pagination span {
     font-size: 14px;
     margin: 0 10px;
+}
+
+@media (max-width: 600px) {
+    .data-table-wrapper {
+        padding: 1rem;
+    }
 }

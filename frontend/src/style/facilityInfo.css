@@ -83,4 +83,51 @@
     font-weight: bold;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
+.index-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.index-input {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #c0d4ee;
+    border-radius: 4px;
+    width: 60%;
+    transition: border-color 0.3s ease;
+}
+
+.index-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* Make the CSV Importer modal centered and clean */
+.csv-importer {
+    position: fixed !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: #ffffff;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 75vh; /* limit height */
+    overflow-y: auto; /* scroll if content is too big */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    z-index: 2000; /* Make sure it appears above everything */
+}
+
+
+
+@media (max-width: 600px) {
+    .csv-importer {
+        width: 95%;
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+}
 

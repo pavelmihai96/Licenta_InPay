@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
 import {formatDate} from "../../functions.js";
+import {FcAbout} from "react-icons/fc";
 
 const ConsumerFacilitiesComponent = () => {
 
@@ -78,11 +79,9 @@ const ConsumerFacilitiesComponent = () => {
             selector: (row) => row.type,
         },
         {
-            name: "",
+            name: "About",
             cell: (row) => (
-                <button onClick={() => handleFacilityInfo(row.facilityId)}>
-                    Facility info
-                </button>
+                <FcAbout onClick={() => handleFacilityInfo(row.facilityId)} size={30}/>
             ),
         },
     ];
@@ -100,7 +99,7 @@ const ConsumerFacilitiesComponent = () => {
                         data={facilities}
                         progressPending={loading}
                         pagination
-                        paginationPerPage={5}
+                        paginationPerPage={10}
                         highlightOnHover
                         pointerOnHover
                         responsive

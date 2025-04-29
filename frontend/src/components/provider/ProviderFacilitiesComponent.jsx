@@ -1,6 +1,7 @@
 import DataTable from "react-data-table-component";
 import '../../style/listOfFacilities.css';
 import '../../style/createFacility.css';
+import { FiSettings } from 'react-icons/fi';
 
 
 import { useState, useEffect } from 'react';
@@ -81,8 +82,8 @@ const ProviderFacilitiesComponent = () => {
         }
     };
 
-    const handleFacility = (facilityId) => {
-        navigate(`/X/${facilityId}`)
+    const handleFacility = (providerId, facilityId) => {
+        navigate(`/provider-facilities/${providerId}/${facilityId}`);
     }
 
     const columns = [
@@ -109,8 +110,8 @@ const ProviderFacilitiesComponent = () => {
         {
             name: "",
             cell: (row) => (
-                <button onClick={() => handleFacility(row.facilityId)}>
-                    See subscribers
+                <button className="settings-button" onClick={() => handleFacility(row.provider.providerId, row.facilityId)}>
+                    <FiSettings size={20} />
                 </button>
             ),
         },
@@ -130,7 +131,7 @@ const ProviderFacilitiesComponent = () => {
                         data={facilities}
                         progressPending={loading}
                         pagination
-                        paginationPerPage={5}
+                        paginationPerPage={10}
                         highlightOnHover
                         pointerOnHover
                         responsive

@@ -93,18 +93,20 @@ const ConsumerSubscriptionInfoComponent = () => {
                         <p>{facilityType.price}</p>
                     </div>
 
-                    <div className="facility-column">
-                        <div className="index-input-group">
-                            <input
-                                type="text"
-                                placeholder="Enter index value"
-                                className="index-input"
-                            />
-                            <button className="facility-button">
-                                Send Index
-                            </button>
+                    {(facility.type === 'GAS' || facility.type === 'ELECTRICITY') && (
+                        <div className="facility-column">
+                            <div className="index-input-group">
+                                <input
+                                    type="text"
+                                    placeholder="Enter index value"
+                                    className="index-input"
+                                />
+                                <button className="facility-button">
+                                    Send Index
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 <div className="facility-footer">

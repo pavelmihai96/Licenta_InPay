@@ -1,15 +1,16 @@
-import '../../style/listOfFacilities.css';
-import '../../style/createFacility.css';
+//import '../../style/listOfFacilities.css';
+//import '../../style/createFacility.css';
 import '../../style/facilityInfo.css';
+import { CSVImporter } from "csv-import-react";
 
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
 
-const ConsumerFacilityInfoComponent = () => {
+const ProviderFacilityInfoComponent = () => {
 
-    const { consumerId, facilityId } = useParams();
+    const { providerId, facilityId } = useParams();
 
     const [provider, setProvider] = useState([]);
     const [subscription, setSubscription] = useState([]);
@@ -22,24 +23,23 @@ const ConsumerFacilityInfoComponent = () => {
     const [loading, setLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+    const [isOpen, setIsOpen] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchData(consumerId, facilityId);
-    }, [consumerId, facilityId]);
+        fetchData(providerId, facilityId);
+    }, [providerId, facilityId]);
 
-    const fetchData = async (consumerId, facilityId) => {
+    const fetchData = async (providerId, facilityId) => {
         setLoading(true);
 
         try {
             const f = await request("GET", `/api/facility/${facilityId}`);
             setFacility(f.data);
 
-            const p = await request("GET", `/api/provider/${f.data.provider.providerId}`);
+            const p = await request("GET", `/api/provider/${providerId}`);
             setProvider(p.data);
-
-            const s = await request("GET", `/api/subscription/by-ids/${consumerId}/${facilityId}`);
-            setSubscription(s.data);
 
             const response = await request("GET", `/api/${f.data.type.toLowerCase()}/by-facilityId/${facilityId}`);
             setFacilityType(response.data);
@@ -47,7 +47,6 @@ const ConsumerFacilityInfoComponent = () => {
             console.log("response: " + response.data);
             console.log("provider: " + p.data);
             console.log("facility: " + f.data);
-            console.log("subscription: " + s.data);
         } catch (error) {
             console.error("Eroare:", error);
         } finally {
@@ -55,7 +54,7 @@ const ConsumerFacilityInfoComponent = () => {
         }
     };
 
-    const handleSubscription = async (consumerId, facilityId) => {
+    const handleConsumers = async (facilityId) => {
         try {
             request("POST", `api/subscription`, {
                 consumerId: consumerId,
@@ -63,10 +62,10 @@ const ConsumerFacilityInfoComponent = () => {
                 status: 'ACTIVE',
                 createdAt: new Date().toISOString()
             })
-            .then((response) => {
-                console.log(response.data);
-                fetchData(consumerId, facilityId);
-            })
+                .then((response) => {
+                    console.log(response.data);
+                    fetchData(consumerId, facilityId);
+                })
         } catch (error) {
             console.error("Eroare:", error);
         } finally {
@@ -77,10 +76,7 @@ const ConsumerFacilityInfoComponent = () => {
     return (
         <div className="facility-page">
             <div className="facility-container">
-                {subscription.status === 'ACTIVE' && (
-                    <div className="facility-label">You have subscribed</div>
-                )}
-                <h3>Facility Details</h3>
+                <h3>Edit facility info</h3>
                 <div className="facility-grid">
                     <div className="facility-column">
                         <label>Provider:</label>
@@ -96,15 +92,37 @@ const ConsumerFacilityInfoComponent = () => {
                     <div className="facility-column">
                         <label>Price:</label>
                         <p>{facilityType.price}</p>
+
+                        <button className="open-csv-button" onClick={() => setIsOpen(true)}>Open CSV Importer</button>
+
+                        <CSVImporter
+                            modalIsOpen={isOpen}
+                            modalOnCloseTriggered={() => setIsOpen(false)}
+                            onComplete={(data) => console.log(data)}
+                            template={{
+                                columns: [
+                                    {
+                                        name: "First Name",
+                                        key: "first_name",
+                                        required: true,
+                                        description: "The first name of the user",
+                                        suggested_mappings: ["First", "Name"],
+                                    },
+                                    {
+                                        name: "Age",
+                                        data_type: "number",
+                                    },
+                                ],
+                            }}
+                        />
                     </div>
                 </div>
 
                 <div className="facility-footer">
-                    {(subscription.status === 'INACTIVE' || !subscription) && (
-                        <button className="facility-button" onClick={() => handleSubscription(consumerId, facilityId)}>
-                            Subscribe
-                        </button>
-                    )}
+                    <button className="facility-button" onClick={() => handleConsumers(providerId, facilityId)}>
+                        See subscribed consumers
+                    </button>
+
                     <button className="facility-button" onClick={() => navigate(-1)}>
                         Back
                     </button>
@@ -112,9 +130,6 @@ const ConsumerFacilityInfoComponent = () => {
             </div>
         </div>
     );
-
-
-
 }
 
-export default ConsumerFacilityInfoComponent;
+export default ProviderFacilityInfoComponent;
