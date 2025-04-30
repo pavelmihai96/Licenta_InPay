@@ -110,7 +110,7 @@ const ConsumerSubscriptionInfoComponent = () => {
                 </div>
 
                 <div className="facility-footer">
-                    <button className="facility-button" onClick={() => navigate(-1)}>
+                    <button className="back-button" onClick={() => navigate(-1)}>
                         Back
                     </button>
                 </div>

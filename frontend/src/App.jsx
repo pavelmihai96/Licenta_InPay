@@ -16,6 +16,8 @@ import ConsumerFacilitiesComponent from "./components/consumer/ConsumerFacilitie
 import ConsumerFacilityInfoComponent from "./components/consumer/ConsumerFacilityInfoComponent.jsx";
 import ConsumerSubscriptionInfoComponent from "./components/consumer/ConsumerSubscriptionInfoComponent.jsx";
 import ProviderFacilityInfoComponent from "./components/provider/ProviderFacilityInfoComponent.jsx";
+import ProviderConsumersOnFacilityComponent from "./components/provider/ProviderConsumersOnFacilityComponent.jsx";
+import ProviderConsumersOnProviderComponent from "./components/provider/ProviderConsumersOnProviderComponent.jsx";
 
 function App() {
 
@@ -29,6 +31,8 @@ function App() {
 
             <Route path='/provider-facilities/:userId' element={<ProtectedRoute><ProviderFacilitiesComponent /></ProtectedRoute>} />
             <Route path='/provider-facilities/:providerId/:facilityId' element={<ProtectedRoute><ProviderFacilityInfoComponent /></ProtectedRoute>} />
+            <Route path='/provider-consumers-onF/:facilityId' element={<ProtectedRoute><ProviderConsumersOnFacilityComponent /></ProtectedRoute>} />
+            <Route path='/provider-consumers-onP/:userId' element={<ProtectedRoute><ProviderConsumersOnProviderComponent /></ProtectedRoute>} />
 
             <Route path='/consumer-subscriptions/:userId' element={<ProtectedRoute><ConsumerSubscriptionsComponent /></ProtectedRoute>} />
             <Route path='/consumer-subscriptions/:userId/:subscriptionId' element={<ProtectedRoute><ConsumerSubscriptionInfoComponent /></ProtectedRoute>} />

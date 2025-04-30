@@ -1,19 +1,21 @@
 import DataTable from "react-data-table-component";
 import '../../style/listOfFacilities.css';
 import '../../style/createFacility.css';
+import { FcInfo } from "react-icons/fc";
+
 
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
-import {formatDate} from "../../functions.js";
+import { formatDate } from "../../functions.js";
 
-const ProviderConsumersComponent = () => {
+const ProviderConsumersOnProviderComponent = () => {
 
     const { userId } = useParams();
 
-    const [consumers, setConsumers] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
+    const [provider, setProvider] = useState();
     const [facilities, setFacilities] = useState([]);
     const [facilityName, setFacilityName] = useState('');
     const [type, setType] = useState('');
@@ -33,11 +35,16 @@ const ProviderConsumersComponent = () => {
         setLoading(true);
 
         try {
-            const consumer = await request("GET", `http://localhost:8080/api/consumer/${userId}`);
-            const response = await request("GET", `/api/subscription/all/${consumer.data.consumerId}`);
+            const p = await request("GET", `http://localhost:8080/api/provider/by-userId/${userId}`);
+            setProvider(p.data);
 
-            setSubscriptions(response.data);
-            console.log("subscriptions: " + response.data);
+            const s = await request("GET", `/api/subscription/join/${p.data.providerId}`);
+            setSubscriptions(s.data);
+
+            const f = await request("GET", `/api/facility/provider/${p.data.providerId}`);
+            setFacilities(f.data);
+
+            console.log("subscriptions: " + s.data);
         } catch (error) {
             console.error("Eroare:", error);
         } finally {
@@ -52,33 +59,39 @@ const ProviderConsumersComponent = () => {
             })
     }
 
+    const getFacilityName = (facilityId) => {
+        for (let i = 0; i < facilities.length; i++) {
+            if (facilities[i].facilityId === facilityId) {
+                return facilities[i].facilityName;
+            }
+        }
+    }
+
     const columns = [
         {
             name: "ID",
             selector: (row) => row.subscriptionId,
         },
         {
-            name: "Owner name",
+            name: "Name",
             selector: (row) => row.consumer.firstName + ' ' + row.consumer.lastName,
         },
         {
-            name: "Description",
-            selector: (row) => row.facility.facilityName,
+            name: "Facility",
+            selector: (row) => getFacilityName(row.facility.facilityId),
         },
         {
-            name: "CreatedAt",
-            selector: (row) => formatDate(row.createdAt),
+            name: "Address",
+            selector: (row) => row.consumer.address,
         },
         {
-            name: "Type",
-            selector: (row) => row.facility.type,
+            name: "Status",
+            selector: (row) => row.status,
         },
         {
-            name: "",
+            name: "Info",
             cell: (row) => (
-                <button onClick={() => handleSubscription(row.subscriptionId)}>
-                    Subscription info
-                </button>
+                <FcInfo onClick={() => handleSubscription(row.subscriptionId)} size={30}/>
             ),
         },
     ];
@@ -88,7 +101,7 @@ const ProviderConsumersComponent = () => {
             <div className="container">
                 <div className="data-table-wrapper">
                     <div className="header">
-                        <h2>List of Subscriptions</h2>
+                        <h2>Your consumers</h2>
                     </div>
 
                     <DataTable
@@ -107,4 +120,4 @@ const ProviderConsumersComponent = () => {
     );
 }
 
-export default ProviderConsumersComponent;
+export default ProviderConsumersOnProviderComponent;

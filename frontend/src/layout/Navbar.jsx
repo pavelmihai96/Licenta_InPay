@@ -13,15 +13,15 @@ const Navbar = () => {
                     <>
                         <li><Link to="/profile" className="nav-button">Profile</Link></li>
 
-                        {/* Show Courses only for TEACHER or STUDENT */}
+                        {/* PROVIDER ROLE */}
                         {auth.user.role === "PROVIDER" && (
                             <li><Link to={`/provider-facilities/${auth.user.userId}`} className="nav-button">Your facilities</Link></li>
                         )}
                         {auth.user.role === "PROVIDER" && (
-                            <li><Link to={`/provider-facilities/${auth.user.userId}`} className="nav-button">Your consumers</Link></li>
+                            <li><Link to={`/provider-consumers-onP/${auth.user.userId}`} className="nav-button">Your consumers</Link></li>
                         )}
 
-                        {/* Show Enrollments only for STUDENT */}
+                        {/* CONSUMER ROLE */}
                         {auth.user.role === "CONSUMER" && (
                             <li><Link to={`/consumer-facilities/${auth.user.userId}`} className="nav-button">Facilities</Link></li>
                         )}

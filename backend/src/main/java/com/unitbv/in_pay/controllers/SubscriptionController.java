@@ -34,6 +34,16 @@ public class SubscriptionController {
         return subscriptionService.getSubscriptionByConsumerIdAndFacilityId(consumerId, facilityId);
     }
 
+    @GetMapping("/by-ids/{facilityId}")
+    public List<Subscription> getSubscriptionsByFacilityId(@PathVariable Integer facilityId) {
+        return subscriptionService.getSubscriptionsByFacilityId(facilityId);
+    }
+
+    @GetMapping("/join/{providerId}")
+    public List<Subscription> getSubscriptionsByProviderId(@PathVariable Integer providerId) {
+        return subscriptionService.getSubscriptionsByProviderId(providerId);
+    }
+
     @GetMapping
     public List<Subscription> getSubscriptions() {
         return subscriptionService.getAllSubscriptions();
