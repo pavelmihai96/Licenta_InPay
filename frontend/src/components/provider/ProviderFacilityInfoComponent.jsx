@@ -55,22 +55,7 @@ const ProviderFacilityInfoComponent = () => {
     };
 
     const handleConsumers = async (facilityId) => {
-        try {
-            request("POST", `api/subscription`, {
-                consumerId: consumerId,
-                facilityId: facilityId,
-                status: 'ACTIVE',
-                createdAt: new Date().toISOString()
-            })
-                .then((response) => {
-                    console.log(response.data);
-                    fetchData(consumerId, facilityId);
-                })
-        } catch (error) {
-            console.error("Eroare:", error);
-        } finally {
-            setLoading(false);
-        }
+        navigate(`/provider-consumers-onF/${facilityId}`);
     }
 
     return (
@@ -119,12 +104,12 @@ const ProviderFacilityInfoComponent = () => {
                 </div>
 
                 <div className="facility-footer">
-                    <button className="facility-button" onClick={() => handleConsumers(providerId, facilityId)}>
-                        See subscribed consumers
+                    <button className="back-button" onClick={() => navigate(-1)}>
+                        Back
                     </button>
 
-                    <button className="facility-button" onClick={() => navigate(-1)}>
-                        Back
+                    <button className="facility-button" onClick={() => handleConsumers(facilityId)}>
+                        See subscribed consumers
                     </button>
                 </div>
             </div>

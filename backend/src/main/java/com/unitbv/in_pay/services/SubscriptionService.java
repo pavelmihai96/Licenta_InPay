@@ -57,6 +57,14 @@ public class SubscriptionService {
         return subscriptionRepository.getSubscriptionByConsumerIdAndFacilityId(consumerId, facilityId);
     }
 
+    public List<Subscription> getSubscriptionsByFacilityId(Integer facilityId) {
+        return subscriptionRepository.getSubscriptionsByFacilityId(facilityId);
+    }
+
+    public List<Subscription> getSubscriptionsByProviderId(Integer providerId) {
+        return subscriptionRepository.getSubscriptionsByProviderId(providerId);
+    }
+
     public List<Subscription> getAllSubscriptions() {
         return subscriptionRepository.findAll();
     }

@@ -16,6 +16,12 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
     @Query("select s from Subscription s where s.consumer.consumerId = ?1 and s.facility.facilityId = ?2")
     Subscription getSubscriptionByConsumerIdAndFacilityId(Integer consumerId, Integer facilityId);
 
+    @Query("select s from Subscription s where s.facility.facilityId = ?1")
+    List<Subscription> getSubscriptionsByFacilityId(Integer facilityId);
+
+    @Query("select s from Subscription s JOIN Facility f ON s.facility.facilityId = f.facilityId WHERE f.provider.providerId = ?1")
+    List<Subscription> getSubscriptionsByProviderId(Integer providerId);
+
     boolean existsByConsumer(Consumer consumer);
 
     boolean existsByFacility(Facility facility);

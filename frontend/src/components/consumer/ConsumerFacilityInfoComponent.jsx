@@ -100,14 +100,14 @@ const ConsumerFacilityInfoComponent = () => {
                 </div>
 
                 <div className="facility-footer">
+                    <button className="back-button" onClick={() => navigate(-1)}>
+                        Back
+                    </button>
                     {(subscription.status === 'INACTIVE' || !subscription) && (
                         <button className="facility-button" onClick={() => handleSubscription(consumerId, facilityId)}>
                             Subscribe
                         </button>
                     )}
-                    <button className="facility-button" onClick={() => navigate(-1)}>
-                        Back
-                    </button>
                 </div>
             </div>
         </div>
