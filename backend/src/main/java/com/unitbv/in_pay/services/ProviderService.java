@@ -23,7 +23,7 @@ public class ProviderService {
 
     public Provider addProvider(ProviderRequest request) {
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("This user doesn't exist"));
+                .orElseThrow(() -> new RuntimeException("This provider doesn't exist"));
 
         boolean isAlready = providerRepository.existsByUser(user);
         if (isAlready) {

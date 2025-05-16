@@ -6,10 +6,7 @@ import SignUpComponent from "./signUp/SignUpComponent.jsx";
 import ProfileComponent from "./profile/ProfileComponent.jsx";
 import Navbar from './layout/Navbar';
 import ProtectedRoute from './service/ProtectedRoute';
-import { useLocation } from "react-router";
 import { AuthProvider } from "./service/AuthContext.jsx";
-import TeacherEnrollments from './teacherEnrollments/TeacherEnrollments.jsx';
-import StudentGrades from "./studentGrades/StudentGrades.jsx";
 import ProviderFacilitiesComponent from "./components/provider/ProviderFacilitiesComponent.jsx";
 import ConsumerSubscriptionsComponent from "./components/consumer/ConsumerSubscriptionsComponent.jsx";
 import ConsumerFacilitiesComponent from "./components/consumer/ConsumerFacilitiesComponent.jsx";
@@ -18,6 +15,7 @@ import ConsumerSubscriptionInfoComponent from "./components/consumer/ConsumerSub
 import ProviderFacilityInfoComponent from "./components/provider/ProviderFacilityInfoComponent.jsx";
 import ProviderConsumersOnFacilityComponent from "./components/provider/ProviderConsumersOnFacilityComponent.jsx";
 import ProviderConsumersOnProviderComponent from "./components/provider/ProviderConsumersOnProviderComponent.jsx";
+import ConsumerInvoicesComponent from "./components/consumer/ConsumerInvoicesComponent.jsx";
 
 function App() {
 
@@ -26,28 +24,23 @@ function App() {
         <AuthProvider>
           <Navbar />
           <Routes>
+            <Route path='/' element={<LogInComponent />} />
             <Route path='/login' element={<LogInComponent />} />
             <Route path='/register' element={<SignUpComponent />} />
+
 
             <Route path='/provider-facilities/:userId' element={<ProtectedRoute><ProviderFacilitiesComponent /></ProtectedRoute>} />
             <Route path='/provider-facilities/:providerId/:facilityId' element={<ProtectedRoute><ProviderFacilityInfoComponent /></ProtectedRoute>} />
             <Route path='/provider-consumers-onF/:facilityId' element={<ProtectedRoute><ProviderConsumersOnFacilityComponent /></ProtectedRoute>} />
             <Route path='/provider-consumers-onP/:userId' element={<ProtectedRoute><ProviderConsumersOnProviderComponent /></ProtectedRoute>} />
 
+
             <Route path='/consumer-subscriptions/:userId' element={<ProtectedRoute><ConsumerSubscriptionsComponent /></ProtectedRoute>} />
-            <Route path='/consumer-subscriptions/:userId/:subscriptionId' element={<ProtectedRoute><ConsumerSubscriptionInfoComponent /></ProtectedRoute>} />
+            <Route path='/consumer-subscriptions/:consumerId/:subscriptionId' element={<ProtectedRoute><ConsumerSubscriptionInfoComponent /></ProtectedRoute>} />
             <Route path='/consumer-facilities/:userId' element={<ProtectedRoute><ConsumerFacilitiesComponent /></ProtectedRoute>} />
             <Route path='/consumer-facilities/:consumerId/:facilityId' element={<ProtectedRoute><ConsumerFacilityInfoComponent /></ProtectedRoute>} />
+            <Route path='/consumer-invoices/:userId' element={<ProtectedRoute><ConsumerInvoicesComponent /></ProtectedRoute>} />
 
-
-
-            <Route path='/list-students/:id' element={<ProtectedRoute><TeacherEnrollments /></ProtectedRoute>} />
-
-
-
-
-
-            <Route path='/enrollments/:id/:courseId' element={<ProtectedRoute><StudentGrades /></ProtectedRoute>} />
 
             <Route path='/profile' element={<ProtectedRoute><ProfileComponent /></ProtectedRoute>} />
           </Routes>

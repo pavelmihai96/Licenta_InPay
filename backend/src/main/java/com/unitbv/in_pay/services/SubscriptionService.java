@@ -33,10 +33,9 @@ public class SubscriptionService {
 
         Facility facility = facilityRepository.findById(request.getFacilityId()).orElseThrow(() -> new IllegalArgumentException(String.format("Facility with ID %s doesn't exist", request.getFacilityId())));
 
-        boolean isAlreadyConsumer = subscriptionRepository.existsByConsumer(consumer);
-        boolean isAlreadyFacility = subscriptionRepository.existsByFacility(facility);
+        boolean isAlreadyConsumerAndFacility = subscriptionRepository.existsByConsumerAndFacility(consumer, facility);
 
-        if (isAlreadyConsumer && isAlreadyFacility) {
+        if (isAlreadyConsumerAndFacility) {
             throw new RuntimeException("This subscription is already present in the database.");
         }
 

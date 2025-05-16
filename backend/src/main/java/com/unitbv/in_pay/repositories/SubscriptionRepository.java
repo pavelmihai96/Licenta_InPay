@@ -6,9 +6,11 @@ import com.unitbv.in_pay.entities.Subscription;
 import com.unitbv.in_pay.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
     @Query("select s from Subscription s where s.consumer.consumerId = ?1")
     List<Subscription> getAllByConsumerId(Integer consumerId);
@@ -22,7 +24,5 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
     @Query("select s from Subscription s JOIN Facility f ON s.facility.facilityId = f.facilityId WHERE f.provider.providerId = ?1")
     List<Subscription> getSubscriptionsByProviderId(Integer providerId);
 
-    boolean existsByConsumer(Consumer consumer);
-
-    boolean existsByFacility(Facility facility);
+    boolean existsByConsumerAndFacility(Consumer consumer, Facility facility);
 }

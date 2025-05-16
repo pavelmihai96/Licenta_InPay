@@ -18,6 +18,7 @@ public class Invoice {
     @Column(name = "invoice_id")
     private Integer invoiceId;
 
+    /*
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "consumer_id", referencedColumnName = "consumer_id")
     private Consumer consumer;
@@ -25,6 +26,11 @@ public class Invoice {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "facility_id", referencedColumnName = "facility_id")
     private Facility facility;
+     */
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subscription_id", referencedColumnName = "subscription_id")
+    private Subscription subscription;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "start_id", referencedColumnName = "index_id")
@@ -35,10 +41,17 @@ public class Invoice {
     private Index end;
 
     @Column(nullable = false)
-    private Integer amount;
+    private Double amount;
+
+    @Enumerated(EnumType.STRING)
+    private Invoice.Status status;
 
     @Column(nullable = false)
     private java.sql.Timestamp createdAt;
+
+    public enum Status {
+        UNPAID, PAID
+    }
 
     @PrePersist
     protected void onCreate() {

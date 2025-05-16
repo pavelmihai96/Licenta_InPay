@@ -1,6 +1,5 @@
 package com.unitbv.in_pay.request;
 
-import com.unitbv.in_pay.entities.Facility;
 import com.unitbv.in_pay.entities.Subscription;
 import jakarta.persistence.Column;
 import lombok.*;
@@ -10,13 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubscriptionRequest {
+public class IndexRequest {
 
-    private Integer consumerId;
+    private Integer subscriptionId;
 
-    private Integer facilityId;
-
-    private Subscription.Status status;
+    private Integer readingValue;
 
     private java.sql.Timestamp createdAt;
 }

@@ -38,6 +38,7 @@ export const request = (method, url, data) => {
   })
 }
 
+
 axios.interceptors.response.use(
   (response) => {
     return response
@@ -55,3 +56,4 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+

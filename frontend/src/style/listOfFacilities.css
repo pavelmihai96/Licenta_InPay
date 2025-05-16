@@ -90,6 +90,12 @@
     justify-content: flex-start;
     margin-top: 1rem;
 }
+.data-table-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    margin-right: 25px;
+}
 
 .back-button {
     padding: 0.6rem 1.2rem;
@@ -105,5 +111,13 @@
 
 .back-button:hover {
     background-color: #5a6268;
+}
+.message-class{
+    font-size: 15px;
+    color: red;
+}
+.message-class-v{
+    font-size: 15px;
+    color: green;
 }
 
