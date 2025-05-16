@@ -12,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class FacilityRequest {
+
     private Integer providerId;
 
     private String facilityName;

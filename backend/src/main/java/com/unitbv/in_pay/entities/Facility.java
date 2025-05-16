@@ -28,6 +28,9 @@ public class Facility {
     @Enumerated(EnumType.STRING)
     public Facility.Type type;
 
+    @Column//(nullable = false)
+    private Double price;
+
     @Column(nullable = false)
     private java.sql.Timestamp createdAt;
 

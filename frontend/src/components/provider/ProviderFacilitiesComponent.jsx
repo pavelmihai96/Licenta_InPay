@@ -123,7 +123,9 @@ const ProviderFacilitiesComponent = () => {
                 <div className="data-table-wrapper">
                     <div className="header">
                         <h2>Your Facilities</h2>
-                        <button onClick={handleAddFacility}>Add Facility</button>
+                        <div className="data-table-header">
+                            <button className="back-button" onClick={handleAddFacility}>Add Facility</button>
+                        </div>
                     </div>
 
                     <DataTable

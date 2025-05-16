@@ -6,20 +6,16 @@ import AuthService from "../service/AuthService.jsx";
 import { removeAuthenticationToken, request, setAuthenticationToken } from "../axios_helper";
 
 const SignUpComponent = () => {
-    let id = 0;
-    let role_registered = "";
     const navigate = useNavigate();
+    const role = "CONSUMER";
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [role, setRole] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [address, setAddress] = useState("");
-    const [companyName, setCompanyName] = useState("");
-    const [serviceArea, setServiceArea] = useState("");
 
     useEffect(() => {
     }, [])
@@ -27,22 +23,8 @@ const SignUpComponent = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            if (!role){
-                alert("Please select a role.");
-                return;
-            }
-
-            if (!username || !email || !password || !confirmPassword ) {
+            if (!username || !email || !password || !confirmPassword || !firstName || !lastName || !address) {
                 alert("Please complete all fields.");
-                return;
-            }
-
-            if (role === "CONSUMER" && (!firstName || !lastName || !address)){
-                alert("Please complete all fields for consumer role.")
-                return;
-            }
-            if (role === "PROVIDER" && (!companyName)){
-                alert("Please complete all fields for provider role.")
                 return;
             }
 
@@ -72,40 +54,19 @@ const SignUpComponent = () => {
                     console.log("New user added!")
                     setAuthenticationToken(response.data.token)
 
-                    id = response.data.userId;
-                    role_registered = response.data.role;
-                    console.log("id: " + id)
-                    console.log("role registered: " + role_registered);
-
-                    if (role_registered === "CONSUMER") {
-                        request('POST', `api/consumer`, {
-                            userId: id,
-                            firstName: firstName,
-                            lastName: lastName,
-                            address: address,
-                            createdAt: new Date().toISOString()
+                    //Add the new user also to Consumers table
+                    request('POST', `api/consumer`, {
+                        firstName: firstName,
+                        lastName: lastName,
+                        address: address,
+                        createdAt: new Date().toISOString()
+                    })
+                        .then((response) => {
+                            console.log("New consumer added!")
                         })
-                            .then((response) => {
-                                console.log("New consumer added!")
-                            })
-                            .catch((error) => {
+                        .catch((error) => {
                                 console.error("Error adding consumer:", error)
-                            });
-                    } else {
-                        request('POST', `api/provider`, {
-                            userId: id,
-                            companyName: companyName,
-                            serviceArea: serviceArea,
-                            createdAt: new Date().toISOString()
-                        })
-                            .then((response) => {
-                                console.log("New provider added!")
-                            })
-                            .catch((error) => {
-                                console.error("Error adding provider:", error)
-                            });
-                    }
-
+                        });
                 })
                 .catch((error) => {
                     console.error("Error adding user:", error)
@@ -133,58 +94,25 @@ const SignUpComponent = () => {
                 <form className="form-grid" onSubmit={handleSignUp}>
                     <div className="form-column">
                         <label>Username</label>
-                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="text" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} />
+
+                        <label>First Name</label>
+                        <input type="text" placeholder="Enter your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Enter your last name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+
+                        <label>Address</label>
+                        <input type="text" placeholder="Enter your address" value={address} onChange={(e) => setAddress(e.target.value)} />
 
                         <label>Email</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                         <label>Password</label>
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                         <label>Confirm Password</label>
-                        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                    </div>
-
-                    <div className="form-column">
-                        <div className="tab-buttons">
-                            <button
-                                type="button"
-                                className={role === 'CONSUMER' ? 'active' : ''}
-                                onClick={() => setRole('CONSUMER')}
-                            >
-                                Consumer
-                            </button>
-                            <button
-                                type="button"
-                                className={role === 'PROVIDER' ? 'active' : ''}
-                                onClick={() => setRole('PROVIDER')}
-                            >
-                                Provider
-                            </button>
-                        </div>
-
-                        {role === 'CONSUMER' && (
-                            <>
-                                <label>First Name</label>
-                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-
-                                <label>Last Name</label>
-                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-
-                                <label>Address</label>
-                                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-                            </>
-                        )}
-
-                        {role === 'PROVIDER' && (
-                            <>
-                                <label>Company Name</label>
-                                <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
-
-                                <label>Service Area</label>
-                                <input type="text" value={serviceArea} onChange={(e) => setServiceArea(e.target.value)} />
-                            </>
-                        )}
+                        <input type="password" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>
                 </form>
 

@@ -1,6 +1,8 @@
+server:
+  port: 8082
 spring:
   application:
-    name: school-management-system
+    name: In-Pay
   datasource:
     url: jdbc:postgresql://localhost:5432/sms_database
     username: postgres

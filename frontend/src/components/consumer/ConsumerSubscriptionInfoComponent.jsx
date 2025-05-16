@@ -13,10 +13,13 @@ const ConsumerSubscriptionInfoComponent = () => {
 
     const { consumerId, subscriptionId } = useParams();
 
-    const [provider, setProvider] = useState([]);
+    const [readingValue, setReadingValue] = useState('');
     const [subscription, setSubscription] = useState([]);
     const [facility, setFacility] = useState([]);
     const [facilityType, setFacilityType] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [validMessage, setValidMessage] = useState('');
+    const [createdIndex, setCreatedIndex] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
     const [pricePerKwh, setPricePerKwh] = useState('');
@@ -40,9 +43,6 @@ const ConsumerSubscriptionInfoComponent = () => {
             const f = await request("GET", `/api/facility/${s.data.facility.facilityId}`);
             setFacility(f.data);
 
-            //const p = await request("GET", `/api/provider/${f.data.provider.providerId}`);
-            //setProvider(p.data);
-
             const response = await request("GET", `/api/${f.data.type.toLowerCase()}/by-facilityId/${s.data.facility.facilityId}`);
             setFacilityType(response.data);
         } catch (error) {
@@ -52,24 +52,51 @@ const ConsumerSubscriptionInfoComponent = () => {
         }
     };
 
-    const handleSubscription = async (consumerId, facilityId) => {
+    const handleSendIndex = async (subscriptionId) => {
+        setLoading(true);
         try {
-            request("POST", `api/subscription`, {
-                consumerId: consumerId,
-                facilityId: facilityId,
-                status: 'ACTIVE',
+            if (readingValue === '') {
+                setErrorMessage('Please type an index value.');
+                setTimeout(() => {
+                    setErrorMessage('');
+                }, 2000);
+
+                return;
+            }
+
+            const response = await request("POST", `api/index`, {
+                subscriptionId: subscriptionId,
+                readingValue: readingValue,
                 createdAt: new Date().toISOString()
-            })
-                .then((response) => {
-                    console.log(response.data);
-                    fetchData(consumerId, facilityId);
-                })
+            });
+
+            console.log(response.data);
+            setReadingValue('');
+            setErrorMessage('');
+
+            setValidMessage('Index added successfully!');
+            setTimeout(() => {
+                setValidMessage('');
+            }, 2000);
+
+            fetchData(consumerId, subscriptionId);
         } catch (error) {
-            console.error("Eroare:", error);
+            if (error.response && error.response.data && error.response.data.error) {
+                setErrorMessage(error.response.data.error);
+                setTimeout(() => {
+                    setErrorMessage('');
+                }, 2000);
+            } else {
+                setErrorMessage('Unexpected error occurred.');
+                setTimeout(() => {
+                    setErrorMessage('');
+                }, 2000);
+            }
         } finally {
             setLoading(false);
         }
-    }
+    };
+
 
     return (
         <div className="facility-page">
@@ -89,22 +116,30 @@ const ConsumerSubscriptionInfoComponent = () => {
                         <label>Type:</label>
                         <p>{facility.type}</p>
 
-                        <label>Monthly price:</label>
+                        <label>{(facility.type === 'GAS' || facility.type === 'ELECTRICITY') ? 'Price per Kwh' : 'Monthly price'}</label>
                         <p>{facilityType.price}</p>
                     </div>
 
-                    {(facility.type === 'GAS' || facility.type === 'ELECTRICITY') && (
+                    {((facility.type === 'GAS' || facility.type === 'ELECTRICITY')) && (
                         <div className="facility-column">
                             <div className="index-input-group">
-                                <input
-                                    type="text"
-                                    placeholder="Enter index value"
-                                    className="index-input"
-                                />
-                                <button className="facility-button">
-                                    Send Index
-                                </button>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter index value"
+                                        className="index-input"
+                                        value={readingValue}
+                                        onChange={(e) => setReadingValue(e.target.value)}
+                                    />
+                                    <button className="facility-button" type="submit" onClick={() => handleSendIndex(subscriptionId)}>
+                                        Send Index
+                                    </button>
                             </div>
+                            {errorMessage && (
+                                <label className="message-class">{errorMessage}</label>
+                            )}
+                            {validMessage && (
+                                <label className="message-class-v">{validMessage}</label>
+                            )}
                         </div>
                     )}
                 </div>

@@ -72,12 +72,12 @@ const ProviderFacilityInfoComponent = () => {
 
                         <label>Type:</label>
                         <p>{facility.type}</p>
+
+                        <label>Price:</label>
+                        <p>{facilityType.price}</p>
                     </div>
 
                     <div className="facility-column">
-                        <label>Price:</label>
-                        <p>{facilityType.price}</p>
-
                         <button className="open-csv-button" onClick={() => setIsOpen(true)}>Open CSV Importer</button>
 
                         <CSVImporter
@@ -87,15 +87,24 @@ const ProviderFacilityInfoComponent = () => {
                             template={{
                                 columns: [
                                     {
-                                        name: "First Name",
-                                        key: "first_name",
+                                        name: "Client ID",
+                                        key: "client_id",
                                         required: true,
-                                        description: "The first name of the user",
-                                        suggested_mappings: ["First", "Name"],
+                                        description: "The contractual ID of the client"
                                     },
                                     {
-                                        name: "Age",
+                                        name: "Email",
+                                        key: "email",
+                                        data_type: "email",
+                                        required: true,
+                                        description: "The email of the client"
+                                    },
+                                    {
+                                        name: "Last 6 digits of PID",
+                                        key: "pid",
                                         data_type: "number",
+                                        required: true,
+                                        description: "Last 6 digits of PID number"
                                     },
                                 ],
                             }}
