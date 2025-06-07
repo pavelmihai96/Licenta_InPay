@@ -1,7 +1,7 @@
 import axios from "axios"
 import { jwtDecode } from "jwt-decode"
 
-axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.baseURL = "http://localhost:8082"
 axios.defaults.headers.post["Content-Type"] = "application/json"
 
 export const getAuthenticationToken = () => {
@@ -22,7 +22,7 @@ export const getDecodedToken = () => {
   }
 }
 
-export const request = (method, url, data) => {
+export const request = (method, url, data, options = {}) => {
   let headers = {}
   const token = getAuthenticationToken()
 
@@ -32,9 +32,11 @@ export const request = (method, url, data) => {
 
   return axios({
     method: method,
+    credentials: "include",
     url: url,
     data: data,
     headers,
+    ...options,
   })
 }
 

@@ -1,0 +1,77 @@
+.subscription-dialog {
+    border: none;
+    padding: 24px;
+    border-radius: 16px;
+    background-color: royalblue; /* dark blue */
+    color: white;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.dialog-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.dialog-input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.dialog-error {
+    color: #ffcccb;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.dialog-button {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.dialog-button.cancel {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.dialog-button.cancel:hover {
+    background-color: #003366;
+}
+
+.dialog-button.submit {
+    background-color: #00bfff;
+    color: white;
+}
+
+.dialog-button.submit:hover {
+    background-color: #009acd;
+}

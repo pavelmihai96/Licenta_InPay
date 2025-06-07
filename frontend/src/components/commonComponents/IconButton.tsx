@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import styled from "styled-components";
 import TypographyComponent, {TypographyType} from "./Typography";
+import {useAuth} from "../../service/AuthContext";
+import { Link } from "react-router-dom";
 
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
     display: inline-flex;
     align-items: center;
     gap: 8px; /* Spacing between icon and text */
@@ -28,23 +30,35 @@ const StyledLink = styled.a`
 
 
 interface StyledLinkProps {
-    href: string; // Link URL
-    children: React.ReactNode; // Content inside the link
+    href?: string; // Link URL
+    to?: string; // Link URL
+    children?: JSX.Element; // Content inside the link
     ariaLabel?: string; // Accessible label (optional)
-    icon?: React.ReactNode; // Icon to display alongside the link text (optional)
+    icon?: JSX.Element; // Icon to display alongside the link text (optional)
     iconPosition?: "left" | "right"; // Icon position (left or right of the text)
+    role?: string;
+    onClick?: () => void;
 }
 
 
 
 const LinkButton = (props:StyledLinkProps) => {
-    return(
-        <StyledLink href={props.href}>
-            {props.icon && props.iconPosition === "left" && <>{props.icon}</>}
-            <TypographyComponent type={TypographyType.Paragraph} text={props.ariaLabel}/>
-            {props.icon && props.iconPosition === "right" && <>{props.icon}</>}
+    const auth = useAuth();
 
-        </StyledLink>
+    //if ((auth.user.role !== props.role) && (props.role !== "TRUE")) return null;
+
+    return(
+        <>
+        {((auth.role === props.role) || (props.role == "TRUE")) && (
+            <StyledLink to={props.to} onClick={props.onClick}>
+
+                {props.icon && props.iconPosition === "left" && <>{props.icon}</>}
+                <TypographyComponent type={TypographyType.Paragraph} text={props.ariaLabel}/>
+                {props.icon && props.iconPosition === "right" && <>{props.icon}</>}
+
+            </StyledLink>
+         )}
+        </>
     )
 }
 //

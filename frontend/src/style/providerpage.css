@@ -1,0 +1,138 @@
+.fiber-card {
+    width: 600px; /* was 300px */
+    height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    background-color: white;
+}
+
+.fiber-card-header {
+    background-color: darkblue; /* green-600 */
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 12px;
+    line-height: 1.4;
+    height: 50px;
+    display: flex;               /* Add */
+    justify-content: space-between; /* Align children to the left flex-start*/
+    align-items: center;         /* Optional: vertical centering */
+}
+
+.fiber-card-body {
+    padding: 20px;
+    background-color: white;
+}
+
+.fiber-card-category {
+    color: #06b6d4; /* cyan-600 */
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.fiber-card-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #06b6d4; /* cyan-600 */
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.fiber-card-price {
+    font-size: 36px;
+    font-weight: bold;
+    color: #06b6d4;
+}
+
+.fiber-card-price-label {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.fiber-card-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.fiber-card-features li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.fiber-card-button {
+    background-color: white;
+    border: 2px solid #3b82f6;
+    color: #3b82f6;
+    font-weight: 600;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+    justify-content: center;
+    margin-top:30px;
+}
+.fiber-card-button-back {
+    background-color: darkblue;
+    border: 2px solid white;
+    color: white;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 9999px;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+    justify-content: start;
+}
+.fiber-card-button-back:hover {
+    background-color: #4169E1;  /* A lighter or darker shade of blue */
+}
+.fiber-card-button:hover {
+    background-color: #e0edff;
+}
+.message-class{
+    font-size: 15px;
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+}
+.message-class-bottom{
+    font-size: 18px;
+    color: mediumspringgreen;
+    display: flex;
+    font-weight: 600;
+    justify-content: center;
+    margin-top: 15px;
+    gap:10px;
+}
+
+.icon {
+    font-size: 16px;
+}
+.fiber-card-container {
+    display: flex;
+    justify-content: center;      /* Center horizontally */
+    align-items: flex-start;      /* Align items to the top */
+    padding: 40px 16px;           /* Vertical + horizontal padding */
+    background-color: #f9f9f9;    /* Optional light background */
+    min-height: 100vh;            /* So padding applies across full screen height */
+}

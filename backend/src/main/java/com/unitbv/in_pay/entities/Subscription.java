@@ -23,8 +23,14 @@ public class Subscription {
     private Consumer consumer;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id")
-    private Facility facility;
+    @JoinColumn(name = "provider_id", referencedColumnName = "provider_id")
+    private Provider provider;
+
+    @Column(nullable = false)
+    private Integer contractId;
+
+    @Column(nullable = false)
+    private Integer clientId;
 
     @Enumerated(EnumType.STRING)
     private Subscription.Status status;
