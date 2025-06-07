@@ -1,5 +1,12 @@
 server:
   port: 8082
+csv:
+  folder:
+    path: src/main/resources/csvclients
+publishable:
+  key: pk_test_51RO0IqDC2ijRDrIhq8n1cwOVrcWxbDzBtOdBtYLROeJKK8pzR7GEes75ffi5BSBTgBT98Qdxy68nKrOlmSDSsbND00ZApab4aM
+secret:
+  key: sk_test_51RO0IqDC2ijRDrIhzNcfonDKPFDfzO4aj96vAuP0jOywAO66UaVHonu5ZhQBUWhZJzCQGqiKErwK30pZbJUhMstX008sL9Eavv
 spring:
   application:
     name: In-Pay
@@ -17,3 +24,14 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pavelmihailungu@gmail.com
+    password: kveuviudgzyxojzs
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

@@ -9,8 +9,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProviderRepository extends JpaRepository<Provider, Integer> {
-    boolean existsByUser(User user);
+    boolean existsByCompanyNameAndServiceAreaAndFacilityNameAndType(String c, String s, String f, Provider.Type p);
 
+    boolean existsByContractId(Integer contractId);
+
+    Provider getProviderByContractId(Integer contractId);
+
+    /*
     @Query("select p from Provider p where p.user.userId = ?1")
     Provider findProviderByUserId(Integer userId);
+
+     */
 }

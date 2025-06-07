@@ -1,0 +1,19 @@
+html, body {
+    font-family: 'inter', sans-serif;
+    font-size: 18px;
+}
+
+.amount-label {
+    display: inline-block;
+    padding: 5px 13px;
+    border-radius: 12px;
+    font-size: 0.600rem;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
+}
+
+.amount-class {
+    background-color: #06b6d4; /* Tailwind green-500 */
+}
+

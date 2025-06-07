@@ -1,3 +1,8 @@
+html, body {
+    font-family: 'inter', sans-serif;
+    font-size: 18px;
+}
+
 .facility-page {
     display: flex;
     justify-content: center;

@@ -19,7 +19,7 @@ public class SignUpDto {
     public char[] password;
 
     public enum Role {
-        CONSUMER, PROVIDER
+        CONSUMER, ADMIN
     }
 
 }

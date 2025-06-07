@@ -19,20 +19,33 @@ public class Provider {
     private Integer providerId;
 
     @Column(nullable = false)
+    private Integer contractId;
+
+    @Column(nullable = false)
     private String companyName;
 
     @Column(nullable = false)
     private String serviceArea;
 
     @Column(nullable = false)
+    private String facilityName;
+
+    @Enumerated(EnumType.STRING)
+    public Provider.Type type;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
     private java.sql.Timestamp createdAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
+    public enum Type {
+        GAS, ELECTRICITY, INTERNET, MOBILE
+    }
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
+
 }

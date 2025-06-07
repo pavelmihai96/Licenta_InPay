@@ -1,6 +1,5 @@
 package com.unitbv.in_pay.request;
 
-import com.unitbv.in_pay.entities.Facility;
 import com.unitbv.in_pay.entities.Subscription;
 import jakarta.persistence.Column;
 import lombok.*;
@@ -14,7 +13,11 @@ public class SubscriptionRequest {
 
     private Integer consumerId;
 
-    private Integer facilityId;
+    private Integer providerId;
+
+    private Integer contractId;
+
+    private Integer clientId;
 
     private Subscription.Status status;
 

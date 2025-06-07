@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,30 +19,42 @@ public class Invoice {
     @Column(name = "invoice_id")
     private Integer invoiceId;
 
-    /*
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "consumer_id", referencedColumnName = "consumer_id")
-    private Consumer consumer;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id")
-    private Facility facility;
-     */
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_id", referencedColumnName = "subscription_id")
     private Subscription subscription;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "start_id", referencedColumnName = "index_id")
-    private Index start;
+    @Column(nullable = false)
+    private Integer idFromProvider;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "end_id", referencedColumnName = "index_id")
-    private Index end;
+    @Column(nullable = false)
+    private Integer clientId;
+
+    @Column(nullable = false)
+    private String clientName;
+
+    @Column(nullable = false)
+    private String clientAddress;
 
     @Column(nullable = false)
     private Double amount;
+
+    @Column(nullable = false)
+    private LocalDate issueDate;
+
+    @Column(nullable = false)
+    private LocalDate dueDate;
+
+    @Column(nullable = false)
+    private String period;
+
+    @Column(nullable = false)
+    private String invoiceName;
+
+    @Column(nullable = false)
+    private String providerInfo;
+
+    @Column
+    private String kwHConsumed;
 
     @Enumerated(EnumType.STRING)
     private Invoice.Status status;

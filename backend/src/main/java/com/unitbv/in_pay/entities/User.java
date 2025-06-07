@@ -38,7 +38,7 @@ public class User {
     public java.sql.Timestamp createdAt;
 
     public enum Role {
-        CONSUMER, PROVIDER
+        CONSUMER, ADMIN
     }
 
     @PrePersist

@@ -1,0 +1,30 @@
+.status-label {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.750rem;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
+}
+
+.status-paid {
+    background-color: #22c55e; /* Tailwind green-500 */
+}
+
+.status-unpaid {
+    background-color: #f97316; /* Tailwind orange-500 */
+}
+.pay-button {
+    border-radius: 9999px;
+    padding: 5px 10px;
+}
+.pay-button:hover {
+    background-color: lightgrey;
+}
+.download-button {
+    border-radius: 9999px;
+}
+.download-button:hover {
+    background-color: lightgrey;
+}
