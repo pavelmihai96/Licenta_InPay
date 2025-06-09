@@ -70,7 +70,6 @@ public class InvoiceService {
     public Invoice updateInvoiceStatus(Integer invoiceId) {
         Invoice invoice = invoiceRepository.findById(invoiceId).orElseThrow(() -> new IllegalArgumentException(String.format("Invoice with ID %s doesn't exist", invoiceId)));
 
-
         invoice.setStatus(Invoice.Status.valueOf("PAID"));
 
         return invoiceRepository.save(invoice);

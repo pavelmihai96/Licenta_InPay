@@ -67,3 +67,12 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.navbar-links-center-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 50px;
+}
+

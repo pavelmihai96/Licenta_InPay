@@ -12,16 +12,10 @@ const ProviderConsumersOnFacility = () => {
 
     const { facilityId } = useParams();
 
-    const [consumers, setConsumers] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
     const [facility, setFacility] = useState(null);
-    const [facilityName, setFacilityName] = useState('');
-    const [type, setType] = useState('');
-    const [price, setPrice] = useState('');
-    const [pricePerKwh, setPricePerKwh] = useState('');
 
     const [loading, setLoading] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const navigate = useNavigate();
 

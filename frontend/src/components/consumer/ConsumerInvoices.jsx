@@ -20,18 +20,9 @@ const ConsumerInvoices = () => {
 
     const { userId } = useParams();
 
-    const [subscriptions, setSubscriptions] = useState([]);
-    const [facilities, setFacilities] = useState([]);
     const [invoices, setInvoices] = useState([]);
-    const [type, setType] = useState('');
-    const [price, setPrice] = useState('');
-    const [pricePerKwh, setPricePerKwh] = useState('');
 
     const [loading, setLoading] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [message, setMessage] = useState(null);
-
-    const navigate = useNavigate();
 
     const stripePromise = loadStripe('pk_test_51RO0IqDC2ijRDrIhq8n1cwOVrcWxbDzBtOdBtYLROeJKK8pzR7GEes75ffi5BSBTgBT98Qdxy68nKrOlmSDSsbND00ZApab4aM');
 
@@ -132,7 +123,9 @@ const ConsumerInvoices = () => {
             <div className="container">
                 <div className="data-table-wrapper">
                     <div className="header">
-                        <h2>Your Invoices</h2>
+                        { invoices.length > 0 &&
+                            <center><h2 style={{marginBottom:"50px"}}>Your invoices</h2></center>
+                        }
                     </div>
 
                     <DataTable

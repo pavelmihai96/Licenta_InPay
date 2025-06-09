@@ -17,14 +17,8 @@ const ConsumerSubscriptions = () => {
     const { userId } = useParams();
 
     const [subscriptions, setSubscriptions] = useState([]);
-    const [facilities, setFacilities] = useState([]);
-    const [facilityName, setFacilityName] = useState('');
-    const [type, setType] = useState('');
-    const [price, setPrice] = useState('');
-    const [pricePerKwh, setPricePerKwh] = useState('');
 
     const [loading, setLoading] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -88,7 +82,9 @@ const ConsumerSubscriptions = () => {
             <div className="container">
                 <div className="data-table-wrapper">
                     <div className="header">
-                        <h2>List of Subscriptions</h2>
+                        { subscriptions.length > 0 &&
+                            <center><h2 style={{marginBottom:"50px"}}>Your subscriptions</h2></center>
+                        }
                     </div>
 
                     <DataTable
@@ -105,6 +101,7 @@ const ConsumerSubscriptions = () => {
                             handleSubscription(row.subscriptionId);
                             // For example, navigate to a detail page or open a modal
                         }}
+                        noDataComponent={<h3>No synced subscriptions</h3>}
                     />
                 </div>
             </div>

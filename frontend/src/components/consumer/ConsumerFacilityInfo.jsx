@@ -18,16 +18,10 @@ const ConsumerFacilityInfo = () => {
     const [subscription, setSubscription] = useState([]);
     const [clientId, setClientId] = useState('');
     const [email, setEmail] = useState('');
-    const [facility, setFacility] = useState([]);
-    const [facilityType, setFacilityType] = useState('');
-    const [type, setType] = useState('');
-    const [price, setPrice] = useState('');
-    const [pricePerKwh, setPricePerKwh] = useState('');
 
     const [message, setMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const [loading, setLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -47,7 +41,6 @@ const ConsumerFacilityInfo = () => {
     }, [consumerId, contractId]);
 
     const fetchData = async (consumerId, contractId) => {
-        setLoading(true);
 
         try {
             const p = await request("GET", `/api/provider/by-contractId/${contractId}`);
@@ -56,13 +49,10 @@ const ConsumerFacilityInfo = () => {
             const s = await request("GET", `/api/subscription/by-ids/${consumerId}/${p.data.providerId}`);
             setSubscription(s.data);
 
-            setFacilityType(p.data.type);
             console.log("provider: " + p.data);
             console.log("subscription: " + s.data);
         } catch (error) {
             console.error("Eroare:", error);
-        } finally {
-            setLoading(false);
         }
     };
 

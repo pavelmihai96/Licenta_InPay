@@ -77,9 +77,6 @@ export const AuthProvider = ({ children }) => {
 
     const isLoggedIn = !!user;
 
-     // const isLoggedIn =
-     //     user ? Promise.resolve(true) : Promise.resolve(false);
-
     if (loading) {
         return <LoadingSpinner/>; // Replace with a spinner or your loading component
     }

@@ -10,9 +10,12 @@ import LoginIcon from '@mui/icons-material/Login';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { useState } from "react";
+
 
 const Navbar = () => {
     const auth = useAuth();
+    const [activeLink, setActiveLink] = useState("");
 
     return (
         <nav className="navbar">
@@ -25,13 +28,14 @@ const Navbar = () => {
             <ul className="navbar-links">
                 {auth.isLoggedIn ? (
                     <>
-                        <li><LinkButton to={`/provider-facilities/${auth.user.userId}`} role={"FALSE"} ariaLabel={'Facilities'} icon={<DashboardIcon/>} iconPosition={"left"}/></li>
-                        <li><LinkButton to={`/provider-consumers-onP/${auth.user.userId}`} role={"FALSE"} ariaLabel={'Consumers'} icon={<AccountBoxIcon/>} iconPosition={"left"}/></li>
-                        <li><LinkButton to={"/profile"} ariaLabel={'Profile'} role={"FALSE"} icon={<AccountBoxIcon/>} iconPosition={"left"}/></li>
-                        <li><LinkButton to={`/consumer-facilities/${auth.user.userId}`} role={"CONSUMER"} ariaLabel={'Providers'} icon={<ManageAccountsIcon/>} iconPosition={"left"}/></li>
-                        <li><LinkButton to={`/consumer-subscriptions/${auth.user.userId}`} role={"CONSUMER"} ariaLabel={'Subscriptions'} icon={<ListAltIcon/>} iconPosition={"left"}/></li>
-                        <li><LinkButton to={`/consumer-invoices/${auth.user.userId}`} role={"CONSUMER"} ariaLabel={'Invoices'} icon={<PaymentsIcon/>} iconPosition={"left"}/></li>
-
+                        {/*<li><LinkButton to={`/provider-facilities/${auth.user.userId}`} role={"FALSE"} ariaLabel={'Facilities'} icon={<DashboardIcon/>} iconPosition={"left"}/></li>*/}
+                        {/*<li><LinkButton to={`/provider-consumers-onP/${auth.user.userId}`} role={"FALSE"} ariaLabel={'Consumers'} icon={<AccountBoxIcon/>} iconPosition={"left"}/></li>*/}
+                        {/*<li><LinkButton to={"/profile"} ariaLabel={'Profile'} role={"FALSE"} icon={<AccountBoxIcon/>} iconPosition={"left"}/></li>*/}
+                        <div className="navbar-links-center-links">
+                            <li><LinkButton to={`/consumer-facilities/${auth.user.userId}`} isActive={activeLink === "providers"} onClick={() => setActiveLink("providers")} className={activeLink === "providers" ? "active-link" : ""} role={"CONSUMER"} ariaLabel={'Providers'} icon={<ManageAccountsIcon/>} iconPosition={"left"}/></li>
+                            <li><LinkButton to={`/consumer-subscriptions/${auth.user.userId}`} isActive={activeLink === "subscriptions"} onClick={() => setActiveLink("subscriptions")} className={activeLink === "subscriptions" ? "active-link" : ""} role={"CONSUMER"} ariaLabel={'Subscriptions'} icon={<ListAltIcon/>} iconPosition={"left"}/></li>
+                            <li><LinkButton to={`/consumer-invoices/${auth.user.userId}`} isActive={activeLink === "invoices"} onClick={() => setActiveLink("invoices")} className={activeLink === "invoices" ? "active-link" : ""} role={"CONSUMER"} ariaLabel={'Invoices'} icon={<PaymentsIcon/>} iconPosition={"left"}/></li>
+                        </div>
                         <li><LinkButton to="/login" ariaLabel={'Log Out'} onClick={auth.logout} role={"TRUE"} icon={<LogoutIcon/>} iconPosition={"right"}/></li>
                     </>
                 ) : (

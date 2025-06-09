@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children }) => {
     const auth = useAuth();
 
     if (auth.isLoggedIn === undefined) {
-        return null; // Render nothing until `isLoggedIn` is defined
+        return null;
     }
 
     if (!!auth.isLoggedIn) {

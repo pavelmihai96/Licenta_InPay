@@ -25,13 +25,6 @@ public class ProviderController {
         return providerService.addProvider(request);
     }
 
-    /*
-    @GetMapping("/by-userId/{userId}")
-    public Provider getProviderByUserId(@PathVariable Integer userId) {
-        return providerService.getProviderByUserId(userId);
-    }
-     */
-
     @GetMapping("/{providerId}")
     public Provider getProvider(@PathVariable Integer providerId) {
         return providerService.getProvider(providerId);

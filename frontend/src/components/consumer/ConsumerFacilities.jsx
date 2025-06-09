@@ -18,7 +18,6 @@ const ConsumerFacilities = () => {
     const [consumerId, setConsumerId] = useState([]);
 
     const [loading, setLoading] = useState(false);
-    const [loading1, setLoading1] = useState(false);
 
     const navigate = useNavigate();
 
@@ -133,7 +132,9 @@ const ConsumerFacilities = () => {
             <div className="container">
                 <div className="data-table-wrapper">
                     <div className="header">
-                        <h2>All providers</h2>
+                        { providers.length > 0 && (
+                            <center style={{marginBottom:"50px"}}><h2>All providers</h2></center>
+                        )}
                     </div>
 
                     <DataTable
@@ -150,7 +151,7 @@ const ConsumerFacilities = () => {
                             handleFacilityInfo(row.contractId);
                             // For example, navigate to a detail page or open a modal
                         }}
-                        noDataComponent={<h2>Providers are not available</h2>}
+                        noDataComponent={<h3>Providers are not available</h3>}
                     />
                 </div>
             </div>

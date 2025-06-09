@@ -8,7 +8,8 @@
     "module": "ESNext",
     "target": "ESNext",
     "strict": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
   },
   "include": ["src"]
 }

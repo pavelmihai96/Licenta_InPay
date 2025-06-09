@@ -29,20 +29,10 @@ const ConsumerSubscriptionInfo = () => {
 
     const { consumerId, subscriptionId } = useParams();
 
-    const [readingValue, setReadingValue] = useState('');
     const [subscription, setSubscription] = useState([]);
     const [invoices, setInvoices] = useState([]);
-    const [facility, setFacility] = useState([]);
-    const [facilityType, setFacilityType] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [validMessage, setValidMessage] = useState('');
-    const [createdIndex, setCreatedIndex] = useState('');
-    const [type, setType] = useState('');
-    const [price, setPrice] = useState('');
-    const [pricePerKwh, setPricePerKwh] = useState('');
 
     const [loading, setLoading] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const navigate = useNavigate();
 
