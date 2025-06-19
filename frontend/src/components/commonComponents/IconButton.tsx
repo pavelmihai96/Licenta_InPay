@@ -5,16 +5,16 @@ import {useAuth} from "../../service/AuthContext";
 import { Link } from "react-router-dom";
 
 
-const StyledLink = styled(Link)<{ isActive?: boolean }>`
+const StyledLink = styled(Link)<{ isactive: string }>`
     display: inline-flex;
     align-items: center;
     gap: 8px; /* Spacing between icon and text */
     color: #1d4ed8; /* Default link color (blue) */
     text-decoration: none;
     font-weight: 500;
-    background-color: ${(props) => (props.isActive ? "royalblue" : "transparent")}; /* Light blue when active */
-    border-radius: ${(props) => (props.isActive ? "9999px" : "")};
-    padding: ${(props) => (props.isActive ? "5px 5px 5px 5px" : "")};
+    background-color: ${(props) => (props.isactive === "true" ? "royalblue" : "transparent")}; /* Light blue when active */
+    border-radius: ${(props) => (props.isactive === "true" ? "9999px" : null)};
+    padding: ${(props) => (props.isactive === "true" ? "5px 5px 5px 5px" : null)};
     
     &:hover {
         text-decoration: underline; /* Underline on hover */
@@ -40,7 +40,7 @@ interface StyledLinkProps {
     role?: string;
     onClick: () => void;
     className: string;
-    isActive?: boolean;
+    isactive: string;
 }
 
 
@@ -53,10 +53,10 @@ const LinkButton = (props:StyledLinkProps) => {
     return(
         <>
         {((auth.role === props.role) || (props.role == "TRUE")) && (
-            <StyledLink to={props.to || "#"} onClick={props.onClick} className={props.className} isActive={props.isActive}>
+            <StyledLink to={props.to || "#"} onClick={props.onClick} className={props.className} isactive={props.isactive}>
 
                 {props.icon && props.iconPosition === "left" && <>{props.icon}</>}
-                <TypographyComponent type={TypographyType.Paragraph} text={props.ariaLabel || ""}/>
+                <TypographyComponent type={TypographyType.Paragraph} truncated={"true"} text={props.ariaLabel || ""}/>
                 {props.icon && props.iconPosition === "right" && <>{props.icon}</>}
 
             </StyledLink>

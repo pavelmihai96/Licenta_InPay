@@ -41,7 +41,7 @@ public class UserAuthenticationProvider {
                 .withSubject(user.getEmail())
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
-                .withClaim("email", user.getUsername())
+                //.withClaim("email", user.getUsername())
                 .withClaim("id", user.getUserId())
                 .sign(algorithm);
     }
@@ -49,13 +49,14 @@ public class UserAuthenticationProvider {
     public Authentication validateToken(String token) {
         try {
             //System.out.println("Validating Token: " + token); // Debugging step
+            //secretKey = "abc";
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decoded = verifier.verify(token); // Decode the token
 
-            //System.out.println("Decoded Token: " + decoded.getSubject()); // Debugging step
+            System.out.println("Decoded Token: " + decoded.getSubject()); // Debugging step
 
-            User user = userService.findByUsername(decoded.getSubject());
+            User user = userService.findByEmail(decoded.getSubject());
             return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
         } catch (TokenExpiredException e) {
             System.out.println("TOKEN Is EXPIRED");

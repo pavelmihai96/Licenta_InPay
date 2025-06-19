@@ -11,6 +11,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { request, getAuthenticationToken } from "../../axios_helper";
 import {formatDate} from "../../functions.js";
+import RefreshButton from "../layout/RefreshButton.jsx";
+import {NoDataComponent} from "../layout/NoDataComponent.jsx";
 
 const ConsumerSubscriptions = () => {
 
@@ -61,14 +63,17 @@ const ConsumerSubscriptions = () => {
         {
             name: "Description",
             selector: (row) => row.provider.facilityName,
+            sortable: true,
         },
         {
-            name: "Added at",
+            name: "Added in",
             selector: (row) => formatDate(row.createdAt),
+            sortable: true,
         },
         {
             name: "Type",
             selector: (row) => row.provider.type,
+            sortable: true,
         },
         {
             cell: (row) => (
@@ -83,7 +88,10 @@ const ConsumerSubscriptions = () => {
                 <div className="data-table-wrapper">
                     <div className="header">
                         { subscriptions.length > 0 &&
-                            <center><h2 style={{marginBottom:"50px"}}>Your subscriptions</h2></center>
+                            <div className="header-refresh">
+                                <div className="style-header"><h2>Your synced subscriptions</h2></div>
+                                <div className="style-refresh"><RefreshButton onClick={() => fetchTableData(userId)}/></div>
+                            </div>
                         }
                     </div>
 
@@ -101,7 +109,7 @@ const ConsumerSubscriptions = () => {
                             handleSubscription(row.subscriptionId);
                             // For example, navigate to a detail page or open a modal
                         }}
-                        noDataComponent={<h3>No synced subscriptions</h3>}
+                        noDataComponent=<NoDataComponent styleHeader={"No synced subscriptions"} onClick={() => fetchTableData(userId)}/>
                     />
                 </div>
             </div>

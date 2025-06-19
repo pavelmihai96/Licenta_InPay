@@ -119,11 +119,12 @@ html, body {
 .back-button:hover {
     background-color: #5a6268;
 }
-.message-class{
+.message-class {
     font-size: 15px;
-    color: red;
+    color: black;
+    text-align: center;
 }
-.message-class-v{
+.message-class-v {
     font-size: 15px;
     color: green;
 }

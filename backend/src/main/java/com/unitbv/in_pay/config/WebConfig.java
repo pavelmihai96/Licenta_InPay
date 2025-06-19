@@ -26,9 +26,9 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5174");
+        //config.addAllowedOrigin("http://localhost:5174");
         config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("http://localhost:5175");
+        //config.addAllowedOrigin("http://localhost:5175");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
@@ -50,7 +50,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:8082", "http://localhost:5174", "http://localhost:5173", "http://localhost:5175")
+                .allowedOrigins("http://localhost:8082", "http://localhost:5173")
                 .allowedMethods("POST", "GET", "PUT", "DELETE");
     }
 }

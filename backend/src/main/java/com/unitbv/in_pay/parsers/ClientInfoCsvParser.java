@@ -41,8 +41,6 @@ public class ClientInfoCsvParser implements CsvParser<ClientInfo> {
         return clients;
     }
 
-
-
     private Integer getIdFromFilename(String file) {
         String id = file.replaceAll("^([^-]+)-.*", "$1");
         return Integer.parseInt(id);

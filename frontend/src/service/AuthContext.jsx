@@ -38,38 +38,40 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const login = (email, password) => {
-        request("POST", "/login", {
-            email: email,
-            password: password,
-        })
-            .then((response) => {
-                setAuthenticationToken(response.data.token)
+    const login = async (email, password) => {
+        try {
+            const response = await request("POST", "/login", {
+                email: email,
+                password: password,
+            });
 
-                localStorage.setItem("loginInfo", JSON.stringify(response.data))
-                setRole(response.data.role)
-                console.log("Login successfull")
-                console.log("Auth token saved to local storage")
+            setAuthenticationToken(response.data.token);
+            localStorage.setItem("loginInfo", JSON.stringify(response.data));
+            localStorage.setItem("activeLink", "providers");
+            setRole(response.data.role);
 
-                const data = response.data;
-                setUser(response.data);
-                console.log(data);
-                if (data.role === "CONSUMER") {
-                    navigate(`/consumer-facilities/${data.userId}`)
-                }
-                else if (data.role === "ADMIN") {
-                    navigate(`/provider-facilities/${data.userId}`)
-                }
+            const data = response.data;
+            setUser(data);
 
-            })
-            .catch((error) => {
-                console.error("Login error:", error.response ? error.response.data : error.message)
-            })
+            if (data.role === "CONSUMER") {
+                navigate(`/consumer-facilities/${data.userId}`);
+            } else if (data.role === "ADMIN") {
+                navigate(`/provider-facilities/${data.userId}`);
+            }
+
+            return null;
+        } catch (error) {
+            const errorMsg = error.response?.data?.error || "Login failed";
+            console.error("Login error:", errorMsg);
+            return errorMsg;
+        }
     };
+
 
 
     const logout = () => {
         localStorage.removeItem("loginInfo");
+        localStorage.removeItem("activeLink");
         setUser(null);
         setRole('');
         navigate('/login');
@@ -78,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     const isLoggedIn = !!user;
 
     if (loading) {
-        return <LoadingSpinner/>; // Replace with a spinner or your loading component
+        return <LoadingSpinner/>;
     }
 
     return (

@@ -1,0 +1,26 @@
+.fiber-card-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap; /* helps wrapping even without a media query */
+}
+
+/* Default layout: side-by-side on large screens */
+.fiber-card {
+    flex: 1 1 45%; /* Flex-grow, flex-shrink, flex-basis */
+    min-width: 300px; /* Optional: ensures readability */
+    max-width: 600px; /* Optional: prevents over-stretching */
+}
+/* Responsive behavior: stack vertically on smaller screens */
+@media (max-width: 768px) {
+    .fiber-card-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .fiber-card {
+        width: 100%;
+        max-width: 100%;
+    }
+}

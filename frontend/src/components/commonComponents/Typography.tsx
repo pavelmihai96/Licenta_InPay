@@ -207,7 +207,7 @@ const TypographyMap = {
 interface TypographyProps {
     type: TypographyType;
     text: string;
-    truncated?: boolean;
+    truncated: string;
     minWidth?: string;
     maxWidth?: string;
     width?: string;
@@ -215,7 +215,7 @@ interface TypographyProps {
 
 const StyledText = styled.div<{
     type: TypographyType;
-    truncated?: boolean;
+    truncated: string;
     minWidth?: string;
     maxWidth?: string;
     width?: string;
@@ -231,9 +231,9 @@ const StyledText = styled.div<{
     min-width: ${({ minWidth }) => minWidth || "none"};
     max-width: ${({ maxWidth }) => maxWidth || "100%"};
 
-    white-space: ${({ truncated }) => (truncated ? "nowrap" : "normal")};
-    overflow: ${({ truncated }) => (truncated ? "hidden" : "visible")};
-    text-overflow: ${({ truncated }) => (truncated ? "ellipsis" : "clip")};
+    white-space: ${({ truncated }) => (truncated === "true" ? "nowrap" : "normal")};
+    overflow: ${({ truncated }) => (truncated === "true" ? "hidden" : "visible")};
+    text-overflow: ${({ truncated }) => (truncated === "true" ? "ellipsis" : "clip")};
 
     @media (max-width: 768px) {
         font-size: ${({ type }) => TypographyMap[type]?.fontSize};
@@ -243,7 +243,7 @@ const StyledText = styled.div<{
 
 
 const TypographyComponent = (props: TypographyProps): ReactElement => {
-    const { type, text, truncated = false, minWidth, maxWidth, width } = props;
+    const { type, text, truncated = "false", minWidth, maxWidth, width } = props;
     return (
         <Tooltip title={text}>
             <StyledText

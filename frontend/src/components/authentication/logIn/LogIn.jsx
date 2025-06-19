@@ -12,6 +12,7 @@ const LogIn = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     userRef.current.focus()
@@ -20,18 +21,33 @@ const LogIn = () => {
   useEffect(() => {
   }, [email, password])
 
-  const handleLogin = (e) => {
-    e.preventDefault()
+  const handleLogin = async (e) => {
+    e.preventDefault();
     if (window.localStorage.getItem("auth_token") != null) {
-      removeAuthenticationToken()
+      removeAuthenticationToken();
     }
-    auth.login(email, password)
-  }
+
+    const loginresponse = await auth.login(email, password);
+    console.log("loginresponse", loginresponse); // should show error if any
+
+    if (loginresponse) {
+      setErrorMessage(loginresponse);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+    }
+  };
+
 
   return (
       <div className="login-page">
         <div className="login-container">
           <h3>Log In</h3>
+          <div>
+            {errorMessage && (
+                <div className="dialog-error">{errorMessage}</div>
+            )}
+          </div>
           <form onSubmit={handleLogin}>
             <label>Email:</label>
             <input

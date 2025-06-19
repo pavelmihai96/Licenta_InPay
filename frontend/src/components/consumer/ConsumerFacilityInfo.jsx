@@ -23,6 +23,7 @@ const ConsumerFacilityInfo = () => {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -58,6 +59,8 @@ const ConsumerFacilityInfo = () => {
 
     const handleAddSubscription = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         request("POST", `/api/clientinfo/${contractId}`, {
             clientId: clientId,
             email: email,
@@ -92,7 +95,7 @@ const ConsumerFacilityInfo = () => {
                                 setErrorMessage('');
                             }, 3000);
                         }
-                })
+                }).finally(() => {setLoading(false)});
             }).catch((error) => {
                 console.error("Eroare:", error);
             })
@@ -123,30 +126,30 @@ const ConsumerFacilityInfo = () => {
                 <div className="fiber-card-price-label">RON/{provider.type === "INTERNET" || provider.type === "MOBILE" ? 'month' : 'kwH'}</div>
                 { provider.type === "INTERNET" && (
                     <ul className="fiber-card-features">
-                        <li><FaWifi className="icon" /> First router is free</li>
-                        <li><FaHdd className="icon" /> 20GB in DIGI Storage</li>
-                        <li><FaUserShield className="icon" /> Parental Control Activation</li>
+                        {provider.wifi != null ? <li><FaWifi className="icon" /> {provider.wifi}</li> : null}
+                        {provider.hdd != null ? <li><FaHdd className="icon" /> {provider.hdd}</li> : null}
+                        {provider.parental != null ? <li><FaUserShield className="icon" />{provider.parental}</li> : null}
                         <li><FaMapMarkerAlt className="icon" /> {provider.serviceArea}</li>
                     </ul>
                 )}
                 { provider.type === "MOBILE" && (
                     <ul className="fiber-card-features">
-                        <li><FaPhone className="icon" /> Unlimited calls inside the country</li>
-                        <li><FaSignal className="icon" /> Unlimited mobile data</li>
+                        {provider.phone != null ? <li><FaPhone className="icon" />{provider.phone}</li> : null}
+                        {provider.signal != null ? <li><FaSignal className="icon" />{provider.signal}</li> : null}
                         <li><FaMapMarkerAlt className="icon" /> {provider.serviceArea}</li>
                     </ul>
                 )}
                 { provider.type === "GAS" && (
                     <ul className="fiber-card-features">
-                        <li><FaCheck className="icon" /> Up to 100RON discount on your first invoice</li>
-                        <li><FaGasPump  className="icon" /> First 500000 kwH with a reduced price</li>
+                        {provider.discount != null ? <li><FaCheck className="icon" /> {provider.discount}</li> : null}
+                        {provider.pump != null ? <li><FaGasPump  className="icon" /> {provider.pump}</li> : null}
                         <li><FaMapMarkerAlt className="icon" /> {provider.serviceArea}</li>
                     </ul>
                 )}
                 { provider.type === "ELECTRICITY" && (
                     <ul className="fiber-card-features">
-                        <li><FaCheck className="icon" /> Up to 150RON discount on your first invoice</li>
-                        <li><FaBolt  className="icon" /> First 400000 kwH with a reduced price</li>
+                        {provider.discount != null ? <li><FaCheck className="icon" /> {provider.discount}</li> : null}
+                        {provider.bolt != null ? <li><FaBolt  className="icon" /> {provider.bolt}</li> : null}
                         <li><FaMapMarkerAlt className="icon" /> {provider.serviceArea}</li>
                     </ul>
                 )}
@@ -194,9 +197,13 @@ const ConsumerFacilityInfo = () => {
                             <button type="button" onClick={handleCloseDialog} className="dialog-button cancel">
                                 Cancel
                             </button>
-                            <button type="submit" className="dialog-button submit">
-                                Submit
-                            </button>
+                            {loading ? (
+                                <div className="spinner"></div>
+                            ) : (
+                                <button type="submit" className="dialog-button submit">
+                                    Submit
+                                </button>
+                            )}
                         </div>
                     </form>
                 </dialog>

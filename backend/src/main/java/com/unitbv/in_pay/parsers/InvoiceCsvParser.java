@@ -119,7 +119,6 @@ public class InvoiceCsvParser{
     }
 
     public void uploadMapInvoice(Path file, Map<String, Long> request) {
-
         try (CSVWriter writer = new CSVWriter(
                 new FileWriter(file.toFile()),
                 CSVWriter.DEFAULT_SEPARATOR,
@@ -138,34 +137,6 @@ public class InvoiceCsvParser{
             e.printStackTrace();
         }
     }
-
-//    public byte[] generateInvoiceFromCsv(String csvPath, int rowIndex) throws Exception {
-//        List<String> lines = Files.readAllLines(Paths.get(csvPath));
-//        if (rowIndex < 1 || rowIndex >= lines.size()) {
-//            throw new IllegalArgumentException("Invalid row index");
-//        }
-//
-//        String[] headers = lines.get(0).split(",");
-//        String[] values = lines.get(rowIndex).split(",");
-//
-//        // Build invoice
-//        InvoiceData invoice = new InvoiceData();
-//        invoice.setInvoiceNumber(values[0]);
-//        invoice.setCustomerName(values[1]);
-//        invoice.setDate(LocalDate.parse(values[2]));
-//
-//        List<InvoiceItem> items = new ArrayList<>();
-//        for (int i = 3; i < values.length; i += 3) {
-//            InvoiceItem item = new InvoiceItem();
-//            item.setDescription(values[i]);
-//            item.setQuantity(Integer.parseInt(values[i + 1]));
-//            item.setUnitPrice(Double.parseDouble(values[i + 2]));
-//            items.add(item);
-//        }
-//        invoice.setItems(items);
-//
-//        return generatePdf(invoice);
-//    }
 
     public Invoice createInvoiceFromLine(Path file, String[] line, Subscription subscription) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");

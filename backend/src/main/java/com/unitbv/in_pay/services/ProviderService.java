@@ -25,12 +25,12 @@ public class ProviderService {
 
     public ResponseEntity<?> addProvider(ProviderRequest request) {
 
-        if (providerRepository.existsByCompanyNameAndServiceAreaAndFacilityNameAndType(
-                request.getCompanyName(), request.getServiceArea(), request.getFacilityName(), request.getType()
-        ) || providerRepository.existsByContractId(request.getContractId())) {
+//        if (providerRepository.existsByCompanyNameAndServiceAreaAndFacilityNameAndType(
+//                request.getCompanyName(), request.getServiceArea(), request.getFacilityName(), request.getType()
+        if (providerRepository.existsByContractId(request.getContractId())) {
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "A provider with this ID already exists."));
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "A provider with this contract Id and/or already exists."));
         } else {
             Provider provider = new Provider();
             provider.setContractId(request.getContractId());
@@ -40,6 +40,30 @@ public class ProviderService {
             provider.setType(request.getType());
             provider.setPrice(request.getPrice());
             provider.setCreatedAt(request.getCreatedAt());
+            if (request.getWifi() != null) {
+                provider.setWifi(request.getWifi());
+            }
+            if (request.getHdd() != null) {
+                provider.setHdd(request.getHdd());
+            }
+            if (request.getParental() != null) {
+                provider.setParental(request.getParental());
+            }
+            if (request.getPhone() != null) {
+                provider.setPhone(request.getPhone());
+            }
+            if (request.getSignal() != null) {
+                provider.setSignal(request.getSignal());
+            }
+            if (request.getDiscount() != null) {
+                provider.setDiscount(request.getDiscount());
+            }
+            if (request.getPump() != null) {
+                provider.setPump(request.getPump());
+            }
+            if (request.getBolt() != null) {
+                provider.setBolt(request.getBolt());
+            }
 
             return ResponseEntity.ok().body(providerRepository.save(provider));
         }

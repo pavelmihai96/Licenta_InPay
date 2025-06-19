@@ -36,6 +36,30 @@ public class Provider {
     @Column(nullable = false)
     private Double price;
 
+    @Column
+    private String wifi;
+
+    @Column
+    private String hdd;
+
+    @Column
+    private String parental;
+
+    @Column
+    private String phone;
+
+    @Column
+    private String signal;
+
+    @Column
+    private String discount;
+
+    @Column
+    private String pump;
+
+    @Column
+    private String bolt;
+
     @Column(nullable = false)
     private java.sql.Timestamp createdAt;
 
@@ -47,5 +71,4 @@ public class Provider {
     protected void onCreate() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
-
 }

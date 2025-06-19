@@ -8,6 +8,10 @@ publishable:
 secret:
   key: sk_test_51RO0IqDC2ijRDrIhzNcfonDKPFDfzO4aj96vAuP0jOywAO66UaVHonu5ZhQBUWhZJzCQGqiKErwK30pZbJUhMstX008sL9Eavv
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   application:
     name: In-Pay
   datasource:

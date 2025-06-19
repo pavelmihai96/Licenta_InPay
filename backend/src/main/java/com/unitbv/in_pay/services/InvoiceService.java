@@ -75,7 +75,7 @@ public class InvoiceService {
         return invoiceRepository.save(invoice);
     }
 
-    @Scheduled(fixedDelay = 5000000)
+    @Scheduled(fixedDelay = 500000)
     @Transactional /// it was needed because a Subscription entity added to an Invoice was detached from the JPA persistence context, because of the Scheduled annotation which is not iinherently transactional
     public void checkForNewInvoices() throws IOException, MessagingException {
         Map<String, Long> mapInvoice = new HashMap<>(invoiceInfoRepository.readMapInvoice());
@@ -113,10 +113,11 @@ public class InvoiceService {
                         existingInvoice.setDueDate(invoice.getDueDate());
                         existingInvoice.setPeriod(invoice.getPeriod());
                         existingInvoice.setStatus(invoice.getStatus());
+                            existingInvoice.setKwHConsumed(invoice.getKwHConsumed());
                         invoiceRepository.save(existingInvoice);
                     } else {
                         invoiceRepository.save(invoice);
-                        emailService.sendInvoiceEmail(invoice.getSubscription().getConsumer().getUser().getEmail(), "Invoice", "This is an Invoice", generatePDF(invoice.getInvoiceId()));
+                        emailService.sendInvoiceEmail(invoice.getSubscription().getConsumer().getUser().getEmail(), invoice.getSubscription().getProvider().getCompanyName() + " Invoice", "here", generatePDF(invoice.getInvoiceId()), invoice, "http://localhost:5173/consumer-invoices/" + invoice.getSubscription().getConsumer().getUserId());
                     }
                 }
             }

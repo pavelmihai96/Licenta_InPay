@@ -70,7 +70,8 @@ public class SubscriptionService {
             listI.forEach(invoice -> {
                 invoiceRepository.save(invoice);
                 try {
-                    emailService.sendInvoiceEmail("pavelmihailungu@gmail.com", "Invoice", "This is an invoice", invoiceService.generatePDF(invoice.getInvoiceId()));
+                    //emailService.sendInvoiceEmail(invoice.getSubscription().getConsumer().getUser().getEmail(), invoice.getSubscription().getProvider().getCompanyName() + " Invoice", "Hello, \n\nYour invoice from " + invoice.getIssueDate() + " with due date in " + invoice.getDueDate() + " was issued.\n\nPlease make sure you pay in time.\n\nPay from the appplication here.", invoiceService.generatePDF(invoice.getInvoiceId()));
+                    emailService.sendInvoiceEmail(invoice.getSubscription().getConsumer().getUser().getEmail(), invoice.getSubscription().getProvider().getCompanyName() + " Invoice", "here", invoiceService.generatePDF(invoice.getInvoiceId()), invoice, "http://localhost:5173/consumer-invoices/" + invoice.getSubscription().getConsumer().getUserId());
                 } catch (MessagingException | IOException e) {
                     throw new RuntimeException(e);
                 }

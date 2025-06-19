@@ -108,3 +108,19 @@ div.dialog-buttons {
 .header {
     background-color: white;
 }
+
+.page1Container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.page2Container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}

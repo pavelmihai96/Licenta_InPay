@@ -1,7 +1,7 @@
 import DataTable from "react-data-table-component";
-import '../../style/listOfFacilities.css';
-import '../../style/createFacility.css';
-import '../../style/facilityInfo.css';
+//import '../../style/listOfFacilities.css';
+//import '../../style/createFacility.css';
+import '../../style/fiberCardCSS.css';
 
 
 import { useState, useEffect } from 'react';
@@ -24,6 +24,8 @@ import {PaymentStatus} from "../layout/PaymentStatus.jsx";
 import PaymentLabel from "../layout/PaymentLabel.jsx";
 import DownloadIcon from "@mui/icons-material/Download";
 import {AmountStyle} from "../layout/AmountStyle.jsx";
+import RefreshButton from "../layout/RefreshButton.jsx";
+import {NoDataComponent} from "../layout/NoDataComponent.jsx";
 
 const ConsumerSubscriptionInfo = () => {
 
@@ -31,8 +33,10 @@ const ConsumerSubscriptionInfo = () => {
 
     const [subscription, setSubscription] = useState([]);
     const [invoices, setInvoices] = useState([]);
+    const [invoiceId, setInvoiceId] = useState(null);
 
     const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false);
 
     const navigate = useNavigate();
 
@@ -60,6 +64,9 @@ const ConsumerSubscriptionInfo = () => {
 
     const handlePDF = async (invoiceId, idFromProvider) => {
         try {
+            setLoading1(true);
+            setInvoiceId(invoiceId);
+
             const response = await request("POST", `/api/invoice/pdf/${invoiceId}`, {}, { responseType: 'blob' });
 
             const url = URL.createObjectURL(response.data);
@@ -75,36 +82,61 @@ const ConsumerSubscriptionInfo = () => {
             window.URL.revokeObjectURL(url);
         } catch (error) {
             console.error("Error generating PDF:", error);
+        } finally {
+            setLoading1(false);
+            setInvoiceId(null);
         }
     };
 
     const columns = [
         {
-            name: "ID",
-            selector: (row) => "#" + row?.idFromProvider,
+            name: "Download",
+            cell: (row) => {
+                const [verif, setVerif] = useState(false);
+
+                useEffect(() => {
+                    const checkPayButton = async () => {
+                        if (loading1 && (invoiceId === row.invoiceId)) {
+                            setVerif(true);
+                        }
+                    };
+
+                    checkPayButton().then(() => {
+                        setTimeout(() => {
+                            setVerif(false)
+                        }, 1500);
+                    });
+                }, [loading1]);
+
+                return ( verif ? (
+                    <div className="spinner"></div>
+                ) : (
+                    <DownloadIcon className="download-button" onClick={() => handlePDF(row.invoiceId, row.idFromProvider)}
+                                  size={30} style={{color: "royalblue"}}/>
+                ) )
+            }
         },
         {
             name: "Amount",
             cell: (row) => (
                 <AmountStyle amount={row?.amount}/>
-            )
-        },
-        {
-            name: "Due date",
-            selector: (row) => formatDate(row?.dueDate),
+            ),
+            sortable: true,
         },
         {
             name: "Status",
             cell: (row) => (
                 <PaymentStatus status={row?.status}/>
-            )
+            ),
+            sortable: true,
         },
         {
-            name: "",
-            cell: (row) => (
-                <DownloadIcon className="download-button" onClick={() => handlePDF(row.invoiceId, row.idFromProvider)} size={30} style={{ color: "royalblue" }}/>
-            )
+            name: "Due date",
+            selector: (row) => formatDate(row?.dueDate),
+            sortable: true,
         },
+
+
     ];
 
     return (
@@ -138,9 +170,11 @@ const ConsumerSubscriptionInfo = () => {
                     <div className="container">
                         <div className="data-table-wrapper">
                             <div className="header">
-                                <h4>Invoices for {subscription?.provider?.facilityName} service</h4>
+                                <div className="header-refresh">
+                                    <div className="style-header"><h4>Invoices for {subscription?.provider?.facilityName} service</h4></div>
+                                    <div className="style-refresh"><RefreshButton onClick={() => fetchData(consumerId, subscriptionId)}/></div>
+                                </div>
                             </div>
-
                             <DataTable
                                 columns={columns}
                                 data={invoices}
@@ -150,7 +184,7 @@ const ConsumerSubscriptionInfo = () => {
                                 highlightOnHover
                                 pointerOnHover
                                 responsive
-                                noDataComponent={<h3>You have no invoices</h3>}
+                                noDataComponent=<NoDataComponent styleHeader={"You have no invoices"} onClick={() => fetchData(consumerId, subscriptionId)}/>
                             />
                         </div>
                     </div>

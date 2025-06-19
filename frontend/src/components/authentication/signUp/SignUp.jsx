@@ -8,13 +8,13 @@ const SignUp = () => {
     const navigate = useNavigate();
     const role = "CONSUMER";
 
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [address, setAddress] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
     }, [])
@@ -22,18 +22,18 @@ const SignUp = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            if (!username || !email || !password || !confirmPassword || !firstName || !lastName || !address) {
+            if (!email || !password || !confirmPassword || !firstName || !lastName || !address) {
                 alert("Please complete all fields.");
                 return;
             }
 
             if (!validateEmail(email)) {
-                alert("Please enter valid email");
+                alert("Please enter a valid email.");
                 return;
             }
 
             if (password !== confirmPassword) {
-                alert("Passwords don't match");
+                alert("Passwords don't match.");
                 return;
             }
 
@@ -43,18 +43,17 @@ const SignUp = () => {
             }
 
             request("POST", "/register", {
-                username: username,
                 email: email,
                 password: password,
                 role: role,
                 createdAt: new Date().toISOString()
             })
                 .then((response) => {
-                    console.log("New user added!")
+                    console.log("New user added!", response.data.userId)
                     setAuthenticationToken(response.data.token)
 
                     //Add the new user also to Consumers table
-                    request('POST', `api/consumer`, {
+                    request("POST", "/api/consumer", {
                         userId: response.data.userId,
                         firstName: firstName,
                         lastName: lastName,
@@ -63,17 +62,26 @@ const SignUp = () => {
                     })
                         .then((response) => {
                             console.log("New consumer added!")
+                            navigate('/login')
                         })
                         .catch((error) => {
                                 console.error("Error adding consumer:", error)
                         });
                 })
                 .catch((error) => {
-                    console.error("Error adding user:", error)
+                    console.error("Eroare:", error);
+                    if (error.response && error.response.data && error.response.data.error) {
+                        setErrorMessage(error.response.data.error);
+                        setTimeout(() => {
+                            setErrorMessage('');
+                        }, 3000);
+                    } else {
+                        setErrorMessage('Unexpected error occurred.');
+                        setTimeout(() => {
+                            setErrorMessage('');
+                        }, 3000);
+                    }
                 });
-
-            navigate('/login');
-
         } catch (err) {
             console.log(err);
         }
@@ -91,11 +99,12 @@ const SignUp = () => {
         <div className="register-page">
             <div className="signup-container">
                 <h3>Sign Up</h3>
+                <div>
+                    {errorMessage && (
+                        <div className="dialog-error">{errorMessage}</div>
+                    )}
+                </div>
                 <form className="form-grid" onSubmit={handleSignUp}>
-                    <div className="form-column">
-                        <label>Username</label>
-                        <input type="text" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} />
-
                         <label>First Name</label>
                         <input type="text" placeholder="Enter your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 
@@ -113,7 +122,6 @@ const SignUp = () => {
 
                         <label>Confirm Password</label>
                         <input type="password" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                    </div>
                 </form>
 
                 <button className="submit-button" type="submit" onClick={handleSignUp}>

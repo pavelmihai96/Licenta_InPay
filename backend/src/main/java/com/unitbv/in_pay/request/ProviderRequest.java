@@ -21,9 +21,25 @@ public class ProviderRequest {
 
     private String facilityName;
 
-    public Provider.Type type;
+    private Provider.Type type;
 
     private Double price;
+
+    private String wifi;
+
+    private String hdd;
+
+    private String parental;
+
+    private String phone;
+
+    private String signal;
+
+    private String discount;
+
+    private String pump;
+
+    private String bolt;
 
     private java.sql.Timestamp createdAt;
 }

@@ -2,6 +2,7 @@ package com.unitbv.in_pay.services;
 
 import com.unitbv.in_pay.authdtos.CredentialsDto;
 import com.unitbv.in_pay.authdtos.SignUpDto;
+import com.unitbv.in_pay.config.UserAuthenticationProvider;
 import com.unitbv.in_pay.entities.User;
 import com.unitbv.in_pay.exceptions.AppException;
 //import com.unitbv.school_management_system.mappers.UserMapper;
@@ -9,11 +10,13 @@ import com.unitbv.in_pay.mappers.UserMapper;
 import com.unitbv.in_pay.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,9 +27,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public User findByUsername(String login) {
-        User user = userRepository.findByEmail(login)
-                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+    public User findByEmail(String login) {
+        User user = userRepository.findByEmail(login);
         return user;
     }
 
@@ -46,7 +48,7 @@ public class UserService {
         User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException(String.format("User with ID %s doesn't exist", userId)));
 
         userToUpdate.setEmail(user.getEmail());
-        userToUpdate.setUsername(user.getUsername());
+        //userToUpdate.setUsername(user.getUsername());
         userToUpdate.setPassword(user.getPassword());
         userToUpdate.setRole(user.getRole());
 
@@ -63,21 +65,20 @@ public class UserService {
 
     //auth functions
     public User login(CredentialsDto credentialsDto) {
-        User user = userRepository.findByEmail(credentialsDto.getEmail())
-                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+        User user = userRepository.findByEmail(credentialsDto.getEmail());
 
-        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword())) {
+        if (user != null && (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword()))) {
             return user;
         }
 
-        throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
+        return null;
     }
 
     public User register(SignUpDto userDto) {
-        Optional<User> optionalUser = userRepository.findByEmail(userDto.getUsername());
+        User optionalUser = userRepository.findByEmail(userDto.getEmail());
 
-        if (optionalUser.isPresent()) {
-            throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
+        if (optionalUser != null) {
+            return null;
         }
 
         User user = userMapper.signUpToUser(userDto);

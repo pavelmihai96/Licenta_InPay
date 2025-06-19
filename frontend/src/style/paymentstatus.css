@@ -24,6 +24,7 @@
 }
 .download-button {
     border-radius: 9999px;
+    margin:auto;
 }
 .download-button:hover {
     background-color: lightgrey;

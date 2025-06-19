@@ -8,10 +8,12 @@ import com.unitbv.in_pay.repositories.UserRepository;
 import com.unitbv.in_pay.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,19 +25,30 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody @Valid CredentialsDto credentialsDto) {
+    public ResponseEntity<?> login(@RequestBody @Valid CredentialsDto credentialsDto) {
         User user = userService.login(credentialsDto);
 
-        user.setToken(userAuthenticationProvider.createToken(user)); //once logged in, return a fresh, new JWT
-        return ResponseEntity.ok(user);
+        if (user != null) {
+            user.setToken(userAuthenticationProvider.createToken(user));
+            return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Wrong username or password."));
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody @Valid SignUpDto signUpDto) {
+    public ResponseEntity<?> register(@RequestBody @Valid SignUpDto signUpDto) {
         User user = userService.register(signUpDto);
-        System.out.println(signUpDto);
 
-        user.setToken(userAuthenticationProvider.createToken(user)); //once registered in, return a fresh, new JWT
-        return ResponseEntity.created(URI.create("/users/" + user.getUserId())).body(user);
+        if (user != null) {
+            return ResponseEntity.created(URI.create("/users/" + user.getUserId())).body(user);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "There is already an account with this email."));
+        }
+
     }
 }

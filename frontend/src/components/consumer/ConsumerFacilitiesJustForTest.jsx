@@ -9,11 +9,8 @@ import { request, getAuthenticationToken } from "../../axios_helper";
 import {formatDate} from "../../functions.js";
 import {FcAbout} from "react-icons/fc";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import RefreshButton from "../layout/RefreshButton.jsx";
-import {useLocation} from "react-router";
-import {NoDataComponent} from "../layout/NoDataComponent.jsx";
 
-const ConsumerFacilities = () => {
+const ConsumerFacilitiesJustForTest = async () => {
 
     const { userId } = useParams();
 
@@ -24,35 +21,28 @@ const ConsumerFacilities = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchTableData(userId);
-    }, []);
+    setLoading(true);
 
-    const fetchTableData = async (userId) => {
-        setLoading(true);
+    try {
+        const consumer = await request("GET", `/api/consumer/${userId}`);
+        const p = await request("GET", `/api/provider`);
 
-        try {
-            const consumer = await request("GET", `/api/consumer/${userId}`);
-            const p = await request("GET", `/api/provider`);
+        setConsumerId(consumer.data.consumerId);
+        setProviders(p.data);
+        console.log("facilities: ", p.data);
+        console.log("consumer: ", consumer.data.consumerId);
+    } catch (error) {
+        console.error("Eroare:", error);
+    } finally {
+        setLoading(false);
+    }
 
-            setConsumerId(consumer.data.consumerId);
-            setProviders(p.data);
-            console.log("facilities: ", p.data);
-            console.log("consumer: ", consumer.data.consumerId);
-        } catch (error) {
-            console.error("Eroare:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleFacilityInfo = async (contractId) => {
         try {
             navigate(`/consumer-facilities/${consumerId}/${contractId}`);
         } catch (error) {
             console.error("Eroare:", error);
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -87,22 +77,18 @@ const ConsumerFacilities = () => {
         {
             name: "Company name",
             selector: (row) => row.companyName,
-            sortable: true,
         },
         {
             name: "Description",
             selector: (row) => row.facilityName,
-            sortable: true,
         },
         {
             name: "Type",
             selector: (row) => row.type,
-            sortable: true,
         },
         {
             name: "Price",
             selector: (row) => row.type === 'INTERNET' || row.type === 'MOBILE' ? row.price + " RON" : row.price + " RON/Kwh",
-            sortable: true,
         },
         {cell: (row) => {
                 const [subscriptionStatus, setSubscriptionStatus] = useState(null);
@@ -140,17 +126,14 @@ const ConsumerFacilities = () => {
                 <div className="data-table-wrapper">
                     <div className="header">
                         { providers.length > 0 && (
-                            <div className="header-refresh">
-                                <div className="style-header"><h2>All providers</h2></div>
-                                <div className="style-refresh"><RefreshButton onClick={() => fetchTableData(userId)}/></div>
-                            </div>
+                            <center style={{marginBottom:"50px"}}><h2>All providers</h2></center>
                         )}
                     </div>
 
                     <DataTable
                         columns={columns}
                         data={providers}
-                        progressPending={loading === 2}
+                        progressPending={loading}
                         pagination
                         paginationPerPage={10}
                         highlightOnHover
@@ -161,7 +144,7 @@ const ConsumerFacilities = () => {
                             handleFacilityInfo(row.contractId);
                             // For example, navigate to a detail page or open a modal
                         }}
-                        noDataComponent=<NoDataComponent styleHeader={"Providers are not available"} onClick={() => fetchTableData(userId)}/>
+                        noDataComponent={<h3>Providers are not available</h3>}
                     />
                 </div>
             </div>
@@ -169,4 +152,4 @@ const ConsumerFacilities = () => {
     );
 }
 
-export default ConsumerFacilities;
+export default ConsumerFacilitiesJustForTest;
